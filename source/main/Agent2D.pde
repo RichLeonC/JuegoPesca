@@ -77,7 +77,7 @@ class Agent2D {
         vel.x *= -damp;
         pos.x = constrain(pos.x, r, width - r);
       }
-      if (pos.y <= r || pos.y >= height - r) {
+      if (pos.y >= height - r) {
         vel.y *= -damp;
         pos.y = constrain(pos.y, r, height - r);
       }
