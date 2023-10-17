@@ -18,7 +18,7 @@ class Agent2D {
     vel = new PVector(0, 0);
     acc = new PVector(0, 0);
     r = sqrt(mass / PI) * 2;
-    c = color(255);
+    c = color(0);
     this.mass = mass;
     damp = 0.9;
     fixed = false;
