@@ -32,11 +32,12 @@ class Spring {
   void display() {
     strokeWeight(2);
     float dif = abs(restLen - a1.pos.dist(a2.pos));
-    colorMode(HSB);
+    color c2 = color(255);
+    /*colorMode(HSB);
     float h = hue(c);
     h = h - map(dif, 0, 100, 0, 255);
     color c2 = color(h, saturation(c), brightness(c), alpha(c));
-    colorMode(RGB);
+    colorMode(RGB);*/
     stroke(c2);
     line(a1.pos.x, a1.pos.y, a2.pos.x, a2.pos.y);
   }
