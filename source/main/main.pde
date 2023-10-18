@@ -1,6 +1,5 @@
 import controlP5.*;
 
-Rod rod;
 Barco barco;
 Sail sail;
 
@@ -16,7 +15,6 @@ void setup() {
   //size(1280,720);
   fullScreen(P2D, 1);
   gravity = new PVector(0, g, 0);
-  rod = new Rod(5,3);
   barco = new Barco(width/2, height*0.35, 10);
   //Menu
   cp5 = new ControlP5(this);
@@ -30,7 +28,6 @@ void draw() {
   noStroke();
   rectMode(CORNER);
   rect(0, height*0.3, width, height*0.7); //El 30% es cielo, el 70% es agua
-  rod.update();
   barco.display();
   barco.update();
 }
@@ -49,9 +46,9 @@ void keyPressed() {
     barco.applyWind(0.1);
   }
   if (key == 'r') {
-    rod.recoger();
+    barco.recoger();
   } else if (key=='c') {
-    rod.lanzar();
+    barco.lanzar();
   }
 }
 

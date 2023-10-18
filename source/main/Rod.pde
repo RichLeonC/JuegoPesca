@@ -1,21 +1,21 @@
 class Rod extends Spring{
-   int largoCuerda = 50;
+   int largoCuerda = 30;
    ArrayList<Agent2D> agentesCuerda;
    ArrayList<Spring> springsCuerda;
    PVector posBase;
    
 
 
-  Rod(float restLen, float k){
+  Rod(float restLen, float k, float x, float y){
     super(restLen, k);
     agentesCuerda = new ArrayList();
     springsCuerda = new ArrayList();
-    posBase = new PVector(width/2-300, height/2 -200);
+    posBase = new PVector(x+100, y-200);
     float masaAgentes = 1;
     Agent2D a1 = new Agent2D(posBase.x, posBase.y, masaAgentes);
     agentesCuerda.add(a1);
     a1.fix();
-    for (float x = 0; x < largoCuerda; x++) {
+    for (float i = 0; i < largoCuerda; i++) {
         Agent2D a = new Agent2D(posBase.x + restLen*(x%2), posBase.y, masaAgentes);
         agentesCuerda.add(a);
         a.fix();
@@ -40,7 +40,7 @@ class Rod extends Spring{
     for (Agent2D a : agentesCuerda) {
       a.applyGravity(gravity);
       a.applyDrag(0.005);
-      if(a.pos.y > height/2){
+      if(a.pos.y > height*0.3){
         if(a.mass > 1){
           a.applyDrag(0.3);
           a.applyForce(new PVector(0,-0.5));
@@ -57,6 +57,15 @@ class Rod extends Spring{
     for (Spring s : springsCuerda) {
       s.update();
       s.display();
+    }
+  }
+  
+  void moverBase(float x, float y){
+    posBase = new PVector(x,y);
+    for(Agent2D a : agentesCuerda){
+      if(a.fixed){
+        a.pos = new PVector(x,y);
+      }
     }
   }
   

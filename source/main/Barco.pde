@@ -1,10 +1,12 @@
 class Barco extends Agent2D {
   Sail sail;
+  Rod rod;
 
   Barco(float x, float y, float mass) {
     super(x, y, mass);
     r*=30;
     sail = new Sail(12, 10);
+    rod = new Rod(5,3,x,y);
   }
   
   void applyWind(float wind){
@@ -14,6 +16,7 @@ class Barco extends Agent2D {
   void update(){
     super.update();
     sail.update();
+    rod.moverBase(pos.x+100, pos.y-200);
   }
 
   @Override
@@ -35,6 +38,15 @@ class Barco extends Agent2D {
 
     popMatrix();
     sail.setPosition(pos.x, pos.y - 5.2*r/2);
+    rod.update();
     sail.display();
+  }
+  
+  void lanzar(){
+    rod.lanzar();
+  }
+  
+  void recoger(){
+    rod.recoger();
   }
 }
