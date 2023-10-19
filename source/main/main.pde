@@ -10,6 +10,14 @@ boolean userWindApplied = false;
 
 //menu
 ControlP5 cp5; //ControlP5
+float FuerzaViento = 128;
+float FuerzaCorriente = 50;
+float pezPayaso = 0;
+float pezGlobo = 0;
+float pezAngel = 0;
+float pezAtun = 0;
+CheckBox CarnadaEscogida;
+
 
 void setup() {
   //size(1280,720);
@@ -18,7 +26,7 @@ void setup() {
   barco = new Barco(width/2, height*0.35, 10);
   //Menu
   cp5 = new ControlP5(this);
-  createMenu(width/10, width/12);
+  createMenu(width/10, width/18);
 }
 
 void draw() {
@@ -60,74 +68,109 @@ void keyReleased(){
 }
   
 void createMenu(int x, int y) {
-  int buttonSize = 80;
-  int spacing = 20;
-  int knobSize = 100;
-  int sliderOffset = 20;
-  int checkboxOffset = 20; 
+
+  int spacing = 30;
+  int knobSize = 150;
+  int sliderOffset = 50;
+  int checkboxOffset = 30; 
   
-
-  // Botones
-  cp5.addButton("Boton1")
-     .setPosition(x - buttonSize/2, y - buttonSize - spacing)
-     .setSize(buttonSize, buttonSize)
-     .setLabel("Aplicar Cambios");
-
+   ControlFont customFont = new ControlFont(createFont("Arial", 18));
+  
   // Perillas
   cp5.addKnob("FuerzaViento")
      .setPosition(x - knobSize - spacing, y - knobSize/2)
      .setRadius(knobSize/2)
      .setRange(0, 255)
-     .setValue(128);
+     .setValue(128)
+     .setFont(customFont);
 
   cp5.addKnob("FuerzaCorriente")
      .setPosition(x + spacing, y - knobSize/2)
      .setRadius(knobSize/2)
      .setRange(0, 100)
-     .setValue(50);
+     .setValue(50)
+     .setFont(customFont);
 
   // Sliders 
   cp5.addSlider("pezPayaso")
      .setPosition(x - knobSize - spacing, y + knobSize/2 + sliderOffset)
-     .setRange(0, 100);
+     .setWidth(200) 
+     .setHeight(30) 
+     .setRange(0, 100)
+     .setFont(customFont);
 
   cp5.addSlider("pezGlobo")
      .setPosition(x - knobSize - spacing, y + knobSize/2 + sliderOffset * 2)
-     .setRange(0, 100);
+     .setWidth(200) 
+     .setHeight(30) 
+     .setRange(0, 100)
+     .setFont(customFont);
 
   cp5.addSlider("pezAngel")
      .setPosition(x - knobSize - spacing, y + knobSize/2 + sliderOffset * 3)
-     .setRange(0, 100);
+     .setWidth(200) 
+     .setHeight(30) 
+     .setRange(0, 100)
+     .setFont(customFont);
 
   cp5.addSlider("pezAtun")
      .setPosition(x - knobSize - spacing, y + knobSize/2 + sliderOffset * 4)
-     .setRange(0, 100);
+     .setWidth(200)
+     .setHeight(30)
+     .setRange(0, 100)
+     .setFont(customFont);
+
+
+  cp5.addTextlabel("titleLabel")
+                 .setText("Opciones de Carnada")
+                 .setPosition(x - knobSize - spacing, y + knobSize/2 + sliderOffset * 5 + checkboxOffset)
+                 .setFont(customFont) 
+                 .setColor(color(255)) 
+                 .setColorBackground(color(0, 100));
+
 
   // Checkboxes
-  cp5.addCheckBox("Checkbox")
-     .setPosition(x - knobSize - spacing, y + knobSize/2 + sliderOffset * 5 + checkboxOffset)
+  cp5.addCheckBox("CarnadaEscogida")
+     .setPosition(x - knobSize - spacing, y + knobSize/2 + sliderOffset * 6 + checkboxOffset)
+     .setItemWidth(30) 
+     .setItemHeight(30) 
      .setColorForeground(color(120))
      .setColorActive(color(255))
      .setColorLabel(color(255))
+     .setFont(customFont)
      .addItem("Carnada1", 1)
      .addItem("Carnada2", 2)
      .addItem("Carnada3", 3)
-     .addItem("Carnada4", 4);
-}
-
-void Boton1() {
-  println("Botón 1 presionado");
-}
-
-void Boton2() {
-  println("Botón 2 presionado");
+     .addItem("Carnada4", 4)
+     .setFont(customFont);;
 }
 
 void FuerzaViento(float val) {
   println("FuerzaViento 1: " + val);
+  FuerzaViento = val;
 }
 
 void FuerzaCorriente(float val) {
   println("FuerzaCorriente 2: " + val);
+  FuerzaCorriente = val;
+}
 
+void pezPayaso(float val) {
+  println("pezPayaso: " + val);
+  pezPayaso = val; 
+}
+
+void pezGlobo(float val) {
+  println("pezGlobo: " + val);
+  pezGlobo = val; 
+}
+
+void pezAngel(float val) {
+  println("pezAngel: " + val);
+  pezAngel = val; 
+}
+
+void pezAtun(float val) {
+  println("pezAtun: " + val);
+  pezAtun = val; 
 }
