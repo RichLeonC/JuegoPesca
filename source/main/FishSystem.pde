@@ -1,10 +1,10 @@
 class FishSystem {
   ArrayList<Fish> fish;
-  FlowField field;
+  Currents field;
 
   FishSystem() {
     fish = new ArrayList<Fish>();
-    field = new FlowField(25);
+    field = new Currents(50);
   }
   // este método también dibuja en pantalla
   void update() {

@@ -1,4 +1,4 @@
-class FlowField {
+class Currents {
   PVector[][] grid;
   float size;
   int rows;
@@ -8,7 +8,7 @@ class FlowField {
   float noiseT;
   float noiseInc;
 
-  FlowField(int size) {
+  Currents(int size) {
     defaultMag = 1;
     noiseRes = 0.1;
     noiseT = random(100);

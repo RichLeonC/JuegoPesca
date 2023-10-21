@@ -25,6 +25,7 @@ float attractForce = 1;
 PVector mouse;
 
 void setup() {
+  frameRate(60);
   //size(1280,720);
   fullScreen(P2D, 1);
   gravity = new PVector(0, g, 0);
@@ -50,10 +51,19 @@ void draw() {
   barco.update();
   
   //sistemas de corrientes y peces
+  // Generar múltiples peces automáticamente a intervalos regulares
+  if (frameCount % 30 == 0) { // Genera peces cada segundo (30 fotogramas)
+    for (int i = 0; i < 5; i++) { // Agrega 5 peces en cada generación
+      float x = random(width); // Posición X aleatoria
+      float y = random(height); // Posición Y aleatoria
+      system.addFish(x, y, 50);
+    }
+  }
+  
   mouse.x = mouseX;
   mouse.y = mouseY;
   if (mousePressed && mouseButton == LEFT) {
-    system.addFish(mouseX, mouseY, 50);
+    system.addFish(mouseX, mouseY, 50);// float mass = 50;
   }
   if (keyPressed && key == 'a') {
     system.attract(mouseX, mouseY, attractForce);

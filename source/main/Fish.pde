@@ -2,15 +2,14 @@ class Fish extends Agent2D {
   float maxSpeed;
   float maxSteeringForce;
   float arrivalRadius;
-  float mass = 50;
   
-  Fish(float x, float y, float mass) {
-    super(x, y, mass);
-    r = sqrt(mass);
+  Fish(float x, float y, float massFish) {
+    super(x, y, massFish);
+    r = sqrt(massFish);
     c = color(random(128, 255), 0, random(128, 255), 255);
     damp = 0.6;
     borderBehaviour = BorderBehaviour.WRAP;
-    maxSpeed = 0.03;
+    maxSpeed = 0.00003;
     maxSteeringForce = 1;
     arrivalRadius = 300;
   }
