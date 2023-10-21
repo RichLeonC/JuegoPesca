@@ -18,6 +18,11 @@ float pezAngel = 0;
 float pezAtun = 0;
 CheckBox CarnadaEscogida;
 
+//Sistema de corrientes y peces
+FishSystem system;
+PVector g2;
+float attractForce = 1;
+PVector mouse;
 
 void setup() {
   //size(1280,720);
@@ -27,6 +32,11 @@ void setup() {
   //Menu
   cp5 = new ControlP5(this);
   createMenu(width/10, width/18);
+  
+  //Sistema de corrientes y peces
+  system = new FishSystem();
+  g2 = new PVector(0, 0.1);
+  mouse = new PVector(0, 0);
 }
 
 void draw() {
@@ -38,6 +48,20 @@ void draw() {
   rect(0, height*0.3, width, height*0.7); //El 30% es cielo, el 70% es agua
   barco.display();
   barco.update();
+  
+  //sistemas de corrientes y peces
+  mouse.x = mouseX;
+  mouse.y = mouseY;
+  if (mousePressed && mouseButton == LEFT) {
+    system.addFish(mouseX, mouseY, 50);
+  }
+  if (keyPressed && key == 'a') {
+    system.attract(mouseX, mouseY, attractForce);
+  }
+  if (keyPressed && key == 'z') {
+    system.repel(mouseX, mouseY, attractForce);
+  }
+  system.update();  
 }
 
 void keyPressed() {
