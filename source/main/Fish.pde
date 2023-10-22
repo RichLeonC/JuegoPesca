@@ -3,9 +3,9 @@ class Fish extends Agent2D {
   float maxSteeringForce;
   float arrivalRadius;
   
-  Fish(float x, float y, float massFish) {
-    super(x, y, massFish);
-    r = sqrt(massFish);
+  Fish(float x, float y, float mass) {
+    super(x, y, mass);
+    r = sqrt(mass);
     c = color(random(128, 255), 0, random(128, 255), 255);
     damp = 0.6;
     borderBehaviour = BorderBehaviour.WRAP;

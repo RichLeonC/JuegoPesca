@@ -9,8 +9,8 @@ class FishSystem {
   // este método también dibuja en pantalla
   void update() {
     field.update();
-    field.display();
-    for (Agent2D a : fish) {
+    //field.display();
+    for (Fish a : fish) {
       a.applyForce(field.getVector(a.pos.x, a.pos.y));
       a.update();
       a.display();

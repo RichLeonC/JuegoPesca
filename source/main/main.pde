@@ -38,6 +38,8 @@ void setup() {
   system = new FishSystem();
   g2 = new PVector(0, 0.1);
   mouse = new PVector(0, 0);
+  // Generar peces al inicio
+  generateMultipleFish(15); // Genera 5 peces al inicio
 }
 
 void draw() {
@@ -51,17 +53,10 @@ void draw() {
   barco.update();
   
   //sistemas de corrientes y peces
-  // Generar múltiples peces automáticamente a intervalos regulares
-  if (frameCount % 30 == 0) { // Genera peces cada segundo (30 fotogramas)
-    for (int i = 0; i < 5; i++) { // Agrega 5 peces en cada generación
-      float x = random(width); // Posición X aleatoria
-      float y = random(height); // Posición Y aleatoria
-      system.addFish(x, y, 50);
-    }
-  }
   
   mouse.x = mouseX;
   mouse.y = mouseY;
+  /*
   if (mousePressed && mouseButton == LEFT) {
     system.addFish(mouseX, mouseY, 50);// float mass = 50;
   }
@@ -71,6 +66,7 @@ void draw() {
   if (keyPressed && key == 'z') {
     system.repel(mouseX, mouseY, attractForce);
   }
+  */
   system.update();  
 }
 
@@ -207,4 +203,13 @@ void pezAngel(float val) {
 void pezAtun(float val) {
   println("pezAtun: " + val);
   pezAtun = val; 
+}
+
+
+void generateMultipleFish(int numFish) {
+  for (int i = 0; i < numFish; i++) {
+    float x = random(width); // Posición X aleatoria
+    float y = random(height); // Posición Y aleatoria
+    system.addFish(x, y, 50);
+  }
 }
