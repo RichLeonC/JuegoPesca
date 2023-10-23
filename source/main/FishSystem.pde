@@ -10,10 +10,16 @@ class FishSystem {
   void update() {
     field.update();
     //field.display();
-    for (Fish a : fish) {
+    for (Fish a : fish) {     
       a.applyForce(field.getVector(a.pos.x, a.pos.y));
       a.update();
       a.display();
+      
+    // Verificar si el pez ha llegado a la mitad superior de la pantalla
+    if (a.pos.y < height * 0.3) {
+      // Invertir su velocidad en el eje Y para hacerlo retroceder
+      a.vel.y *= -1;      
+      }
     }
   }
   void addFish(float x, float y, float mass) {

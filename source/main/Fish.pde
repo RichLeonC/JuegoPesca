@@ -8,7 +8,7 @@ class Fish extends Agent2D {
     r = sqrt(mass);
     c = color(random(128, 255), 0, random(128, 255), 255);
     damp = 0.6;
-    borderBehaviour = BorderBehaviour.WRAP;
+    borderBehaviour = BorderBehaviour.NONE;
     maxSpeed = 0.00003;
     maxSteeringForce = 1;
     arrivalRadius = 300;
