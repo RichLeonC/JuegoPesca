@@ -31,6 +31,11 @@ class Fish extends Agent2D {
     endShape(CLOSE);
     popMatrix();
   }
+  @Override
+  void applyForce(PVector force) {
+    PVector f = force.copy();
+    f.div(mass);
+  }  
   
   void seek(PVector target) {
     PVector desired = PVector.sub(target, pos);
