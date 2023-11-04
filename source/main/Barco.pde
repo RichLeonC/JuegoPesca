@@ -6,7 +6,7 @@ class Barco extends Agent2D {
     super(x, y, mass);
     r*=30;
     sail = new Sail(12, 10);
-    rod = new Rod(5,3,x,y);
+    rod = new Rod(5,0.3,x,y);
   }
   
   void applyWind(float wind){
@@ -42,8 +42,8 @@ class Barco extends Agent2D {
     sail.display();
   }
   
-  void lanzar(){
-    rod.lanzar();
+  void lanzar(float fuerza){
+    rod.lanzar(fuerza);
   }
   
   void recoger(){

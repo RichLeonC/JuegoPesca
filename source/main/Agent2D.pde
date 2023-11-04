@@ -67,6 +67,8 @@ class Agent2D {
   }
   void fix() {
     fixed = true;
+    acc = new PVector(0,0);
+    vel = new PVector(0,0);
   }
   void unfix() {
     fixed = false;
