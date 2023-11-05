@@ -1,3 +1,7 @@
+enum FishType{
+  ANGEL, ATUN, PAYASO, GLOBO
+}
+
 class Fish extends Agent2D {
   float maxSpeed;
   float maxSteeringForce;
@@ -14,15 +18,19 @@ class Fish extends Agent2D {
   float separationRatio;
   float cohesionRadio;
   float cohesionRatio;
+  boolean pescado = false;
+  FishType type;
   
-  Fish(float x, float y, float mass) {
+  
+  Fish(float x, float y, float mass, FishType type) {
     super(x, y, mass);
+    this.type = type;
     r = sqrt(mass);
-    c = color(random(128, 255), 0, random(128, 255), 255);
+    setColor();
     damp = 0.6;
-    borderBehaviour = BorderBehaviour.NONE;
+    borderBehaviour = BorderBehaviour.WRAP;
     maxSpeed = 1;
-    maxSteeringForce = 1;
+    maxSteeringForce = 2;
     arrivalRadius = 300;
     lookAhead = 40;
     wanderRadius = 30;
@@ -36,6 +44,27 @@ class Fish extends Agent2D {
     alignmentRatio = 1;
     cohesionRadio = 150;
     cohesionRatio = 1;
+  }
+  
+  void setColor(){
+    switch(type){
+      case GLOBO:
+        this.c = color(0,0,255);//azul
+        break;
+      case ANGEL:
+        this.c = color(255); //blanco
+        break;
+      case ATUN:
+        this.c = color(156,156,156); //gris
+        break;
+      case PAYASO:
+        this.c = color(255,255,0); //amarillo
+        break;
+      default:
+        this.c = color(0);
+        break;
+    
+    }
   }
   
   @Override
@@ -172,6 +201,7 @@ class Fish extends Agent2D {
     predicted.add(pos);
     return predicted;
   }
+  
   ArrayList<PVector> getValidAheadPoint(PVector predicted, Path path) throws Exception {
     int closest = path.getClosestSegmentIndex(pos);
     for (int i = 0; i < path.segments.size(); i++) {
@@ -191,28 +221,6 @@ class Fish extends Agent2D {
       }
     }
     throw new Exception("Couldn't find a valid ahead point to follow.");
-  }
-  void align(ArrayList<Fish> agents) {
-    PVector result = new PVector(0, 0);
-    int n = 0;
-    for (Agent2D a : agents) {
-      if (a != this && pos.dist(a.pos) < alignmentRadio) {
-        result.add(a.vel);
-        n++;
-      }
-    }
-    if (n > 0) {
-      result.div(n);
-      result.setMag(alignmentRatio);
-      result.limit(maxSteeringForce);
-      applyForce(result);
-    }
-    if (debug) {
-      stroke(255, 128);
-      strokeWeight(1);
-      noFill();
-      ellipse(pos.x, pos.y, alignmentRadio * 2, alignmentRadio * 2);
-    }
   }
   
   void separateAlignCohere(ArrayList<Fish> agents){
@@ -276,54 +284,4 @@ class Fish extends Agent2D {
         ellipse(pos.x, pos.y, Math.max(alignmentRadio, Math.max(separationRadio, cohesionRadio)) * 2, Math.max(alignmentRadio, Math.max(separationRadio, cohesionRadio)) * 2);
     }
   }
-  
-  void separate(ArrayList<Fish> agents) {
-    PVector result = new PVector(0, 0);
-    int n = 0;
-    for (Agent2D a : agents) {
-      if (a != this && pos.dist(a.pos) < separationRadio) {
-        PVector dif = PVector.sub(pos, a.pos);
-        dif.normalize();
-        dif.div(pos.dist(a.pos));
-        result.add(dif);
-        n++;
-      }
-    }
-    if (n > 0) {
-      result.div(n);
-      result.setMag(separationRatio);
-      result.limit(maxSteeringForce);
-      applyForce(result);
-    }
-    if (debug) {
-      stroke(255, 128);
-      strokeWeight(1);
-      noFill();
-      ellipse(pos.x, pos.y, separationRadio * 2, separationRadio * 2);
-    }
-  }
-  void cohere(ArrayList<Fish> agents) {
-    PVector result = new PVector(0, 0);
-    int n = 0;
-    for (Agent2D a : agents) {
-      if (a != this && pos.dist(a.pos) < cohesionRadio) {
-        result.add(a.pos);
-        n++;
-      }
-    }
-    if (n > 0) {
-      result.div(n);
-      result.sub(pos);
-      result.setMag(cohesionRatio);
-      result.limit(maxSteeringForce);
-      applyForce(result);
-    }
-    if (debug) {
-      stroke(255, 128);
-      strokeWeight(1);
-      noFill();
-      ellipse(pos.x, pos.y, cohesionRadio * 2, cohesionRadio * 2);
-    }    
-  }
-  
 }

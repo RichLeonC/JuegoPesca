@@ -22,7 +22,7 @@ class Agent2D {
     this.mass = mass;
     damp = 0.9;
     fixed = false;
-    borderBehaviour = BorderBehaviour.BORDERS;
+    borderBehaviour = BorderBehaviour.NONE;
   }
   void update() {
     if (!fixed) {
