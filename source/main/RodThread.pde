@@ -18,7 +18,6 @@ class RodThread extends Spring {
     }
     //springForce.x = constrain(springForce.x,0.01,0.5);
     //springForce.y = constrain(springForce.y,-0.5,-0.1);
-    println(springForce);
     a2.applyForce(springForce);
     springForce.mult(-1);
     a1.applyForce(springForce);

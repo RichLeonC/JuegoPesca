@@ -80,12 +80,12 @@ void setup() {
 
 void draw() {
   background(200, 220, 255);
-  //fill(0, 0, 220, 100);
-  //noStroke();
+  fill(0, 0, 220, 100);
+  noStroke();
   //rectMode(CORNER);
-  //rect(0, height*0.3, width, height*0.7); //El 30% es cielo, el 70% es agua
-  drawOceanGradient();
-  drawOceanSurface();
+  rect(0, height*0.3, width, height*0.7); //El 30% es cielo, el 70% es agua
+  //drawOceanGradient();
+  //drawOceanSurface();
   t += 0.006;
   barco.display();
   barco.update();
@@ -168,8 +168,14 @@ void keyPressed() {
     barco.applyForce(new PVector(force, 0));
     barco.applyWind(0.1);
   }
-  if (key == 'r') {
+  if (key == ' ') {
     barco.recoger();
+  }
+  if(key == 'w'){
+    barco.rod.addPeso();
+  }
+  if(key == 's'){
+    barco.rod.substractPeso();
   }
 }
 
@@ -183,8 +189,13 @@ void mouseReleased(){
   if(mouseY > height*0.3  && mouseX > 70){
     //println("Entra a lanzar");
     fuerzaRod = barra.getValue();
+    if(mouseX < barco.pos.x){
+      barco.lanzar(-fuerzaRod);
+    }else{
+      barco.lanzar(fuerzaRod);
+    }
     //println(fuerzaRod);
-    barco.lanzar(fuerzaRod);
+    
   }
   barra.setValue(0);
   barra.setVisible(false);
@@ -238,7 +249,7 @@ int getGradientColor(float y) {
 }
 
 void drawOceanSurface() {
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 7; i++) {
     drawWave(height * 0.3 + i * 20, 20 - i * 2, 200 - i * 40);
   }
 }
@@ -400,7 +411,6 @@ void createMenu(int x, int y) {
             barco.rod.lanzada = false;
             //println("Elemento seleccionado: " + selectedItemName + " con valor " + selectedValue);
             // Realiza acciones específicas basadas en el elemento seleccionado
-          }
           barco.setBait(carnadaEscogidaIndex);
           barco.rod.lanzada = false;
           println("Elemento seleccionado: " + selectedItemName + " con valor " + selectedValue);

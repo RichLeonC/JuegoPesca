@@ -19,6 +19,7 @@ class Fish extends Agent2D {
   float cohesionRadio;
   float cohesionRatio;
   boolean pescado = false;
+  boolean isChasing = false;
   FishType type;
   
   

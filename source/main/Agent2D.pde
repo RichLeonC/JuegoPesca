@@ -45,25 +45,33 @@ class Agent2D {
     vel.setMag(mag);
   }
   void applyForce(PVector force) {
-    PVector f = force.copy();
-    f.div(mass);
-    acc.add(f);
+    if(!fixed){
+      PVector f = force.copy();
+      f.div(mass);
+      acc.add(f);
+    }
   }
   void applyGravity(PVector force) {
-    acc.add(force);
+    if(!fixed){
+      acc.add(force);
+    }
   }
   void applyFriction(float c) {
-    PVector fric = vel.copy();
-    fric.normalize();
-    fric.mult(-c);
-    applyForce(fric);
+    if(!fixed){
+      PVector fric = vel.copy();
+      fric.normalize();
+      fric.mult(-c);
+      applyForce(fric);
+    }
   }
   void applyDrag(float c) {
-    PVector drag = vel.copy();
-    drag.normalize();
-    drag.mult(vel.magSq());
-    drag.mult(-c);
-    applyForce(drag);
+    if(!fixed){
+      PVector drag = vel.copy();
+      drag.normalize(); //<>//
+      drag.mult(vel.magSq());
+      drag.mult(-c);
+      applyForce(drag);
+    }
   }
   void fix() {
     fixed = true;

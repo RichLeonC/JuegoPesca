@@ -6,6 +6,7 @@ class Rod extends Spring{
    Bait carnada;
    boolean lanzada = false;
    boolean pescado = false;
+   int pesoExtra = 0;
 
   Rod(float restLen, float k, float x, float y){
     super(restLen, k);
@@ -21,45 +22,52 @@ class Rod extends Spring{
     int pesoCarnada;
     switch(index){
       case 0:
-        pesoCarnada = 25; 
+        pesoCarnada = peso4;
         carnada = new Bait(posBase.x, posBase.y, pesoCarnada, BaitType.SARDINA);
         break;
       case 1:
-        pesoCarnada = 20;
+        pesoCarnada = peso3;
         carnada = new Bait(posBase.x, posBase.y, pesoCarnada, BaitType.CAMARON);
         break;
       case 2:
-        pesoCarnada = 15;
+        pesoCarnada = peso2;
         carnada = new Bait(posBase.x, posBase.y, pesoCarnada, BaitType.LOMBRIZ);
         break;
       default:
-        pesoCarnada = 10;
+        pesoCarnada = peso1;
         carnada = new Bait(posBase.x, posBase.y, pesoCarnada, BaitType.NONE);
         break;
     }
     crearCuerda(carnada);
-}
+  }
+  
+  void addPeso(){
+    pesoExtra++;
+    pesoExtra = constrain(pesoExtra,0,5);
+  }
+  
+  void substractPeso(){
+    pesoExtra--;
+    pesoExtra = constrain(pesoExtra,0,5);
+  }
   
   void crearCuerda(Bait bait){
     agentesCuerda = new ArrayList();
     springsCuerda = new ArrayList();
     Agent2D a1 = new Agent2D(posBase.x-restLen/2, posBase.y, 1);
-    float masaCuerda;
+    float masaCuerda = 0.1;
     switch((int)carnada.mass){
         case peso1:
-          masaCuerda = 0.2;
+          masaCuerda = peso1*0.6/peso2;
           break;
         case peso2:
-          masaCuerda = 2;
+          masaCuerda = peso2*0.6/peso2;
           break;
         case peso3:
-          masaCuerda = 3;
+          masaCuerda = peso3*0.6/peso2;
           break;
         case peso4:
-          masaCuerda = 4;
-          break;
-        default:
-          masaCuerda = 0;
+          masaCuerda = peso3*0.6/peso2;
           break;
       }
     agentesCuerda.add(a1);
@@ -91,22 +99,29 @@ class Rod extends Spring{
   
   void update(){
     int i = 0;
-    int largoMar;
+    int largoMar = 7;
+    float fuerzaCuerda = 0;
+    float fuerzaCarnada = 0;
     switch((int)carnada.mass){
       case peso1:
+        fuerzaCuerda = peso1*-0.4/peso2;
+        fuerzaCarnada = peso1*-0.7/peso2;
         largoMar = 1;
         break;
       case peso2:
-        largoMar = 4;
+        fuerzaCuerda = -0.4;
+        fuerzaCarnada = -0.7;
+        largoMar = 2;
         break;
       case peso3:
+        fuerzaCuerda = peso3*-0.4/peso2;
+        fuerzaCarnada = -0.99;
         largoMar = 3;
         break;
       case peso4:
-        largoMar = 2;
-        break;
-      default:
-        largoMar = 0;
+        fuerzaCuerda = peso3*-0.4/peso2; 
+        fuerzaCarnada = -1.5;
+        largoMar = 4;
         break;
     }
     for (Agent2D a : agentesCuerda) {
@@ -115,16 +130,17 @@ class Rod extends Spring{
       if(a.pos.y > height*0.3){
         if(a.mass > 1){
           a.applyDrag(0.3);
-          a.applyForce(new PVector(0,-0.5*carnada.mass/100));
+          a.applyForce(new PVector(0,fuerzaCarnada));
         }
-        else if( i < largoCuerda - largoMar){
+        else if( i < largoCuerda - largoMar - pesoExtra){
           //a.fix();
-          a.applyForce(new PVector(0,-0.4));
-          a.applyDrag(0.03);
+          a.applyForce(new PVector(0,fuerzaCuerda));
+          a.applyDrag(0.1);
         }
       }
       i++;
       a.update();
+      //a.display();
       
     }
     for (RodThread s : springsCuerda) {
@@ -148,6 +164,7 @@ class Rod extends Spring{
   void moverBase(float x, float y){
     //setPosiciones(x,y);
     //carnada.pos.x = x + restLen/2;
+    posBase = new PVector(x,y);
     for(Agent2D a : agentesCuerda){
       if(a.fixed){
         a.pos = new PVector(x,y);
@@ -178,33 +195,36 @@ class Rod extends Spring{
    }
   }
   
+  
+  
   void lanzar(float fuerzaP){
     //println(fuerzaP);
-    float fuerza;
+    int n = fuerzaP < 1? -1: 1;
+    float fuerza = 0;
     switch((int)carnada.mass){
         case peso1:
-          fuerza = fuerzaP*2;
+          fuerza = peso1*(fuerzaP*2.5)/peso2;
           break;
         case peso2:
-          fuerza = fuerzaP*1.5;
+          fuerza = peso2*(fuerzaP*2.5)/peso2;
           break;
         case peso3:
-          fuerza = fuerzaP*2;
+          fuerza = peso3*(fuerzaP*2.5)/peso2;
           break;
-        default:
-          fuerza = 0;
+        case peso4:
+          fuerza = peso3*(fuerzaP*2.5)/peso2;
           break;
       }
     if(!lanzada){
       lanzada = true;
       Agent2D a2 = agentesCuerda.get(agentesCuerda.size()-1);
       a2.unfix();
-      a2.applyForce(new PVector(fuerza,-fuerza*1.5));
+      a2.applyForce(new PVector(fuerza,-fuerza*1.5*n));
       a2.update();
       for(int i = agentesCuerda.size()-2; i > 0; i--){
         Agent2D a = agentesCuerda.get(i);
         a.unfix();
-        a.applyForce(new PVector(fuerza*0.01,-fuerza*0.04));
+        a.applyForce(new PVector(fuerza*0.01,-fuerza*0.04*n));
         a.update();
       }
     }

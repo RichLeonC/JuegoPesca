@@ -1,12 +1,30 @@
 class Barco extends Agent2D {
   Sail sail;
   Rod rod;
+  int puntos;
 
   Barco(float x, float y, float mass) {
     super(x, y, mass);
     r*=30;
     sail = new Sail(12, 10);
     rod = new Rod(2,0.03,x,y);
+  }
+  
+  void addPoints(FishType type){
+      switch(type){
+        case ATUN:
+          puntos += 1;
+          break;
+        case ANGEL:
+          puntos += 2;
+          break;
+        case GLOBO:
+          puntos += 4;
+          break;
+        case PAYASO:
+          puntos += 5;
+          break;
+      }
   }
   
   void applyWind(float wind){
