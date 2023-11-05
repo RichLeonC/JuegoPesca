@@ -47,6 +47,9 @@ float attractForce = 1;
 PVector mouse;
 float[] probabilidades;
 
+//oceano
+float t = 0;
+
 
 
 void setup() {
@@ -58,10 +61,10 @@ void setup() {
   probabilidades = distributeProbabilities();
   //Menu
   cp5 = new ControlP5(this);
-  
-  
+
+
   createMenu(width/10, width/18);
-  
+
   //Sistema de corrientes y peces
   system = new FishSystem();
   g2 = new PVector(0, 0.1);
@@ -76,54 +79,56 @@ void draw() {
   //noStroke();
   //rectMode(CORNER);
   //rect(0, height*0.3, width, height*0.7); //El 30% es cielo, el 70% es agua
-  drawGradienteOceano();
+  drawOceanGradient();
+  drawOceanSurface();
+  t += 0.006;
   barco.display();
   barco.update();
   if (mousePressed) {
     float fuerza = (float)barra.getValue() + 1;
     barra.setValue(fuerza);
     color colorActual;
-    if(fuerza < 50){
+    if (fuerza < 50) {
       float tiempoPresionadoFraccion = map(fuerza, 0, 50, 0, 1);
-      colorActual = lerpColor(color(0,255,0), color(255,255,0), tiempoPresionadoFraccion);
-    }else{
+      colorActual = lerpColor(color(0, 255, 0), color(255, 255, 0), tiempoPresionadoFraccion);
+    } else {
       float tiempoPresionadoFraccion = map(fuerza-50, 0, 75, 0, 1);
-      colorActual = lerpColor(color(255,255,0), color(255,0,0), tiempoPresionadoFraccion);
+      colorActual = lerpColor(color(255, 255, 0), color(255, 0, 0), tiempoPresionadoFraccion);
     }
     barra.setColorForeground(colorActual);
   }
   int currentTime = millis();
   if (currentTime - lastTime >= interval) {
-    int x = random(0,1) > 0.5? width: -width;
-    int y = random(0,1) > 0.5? height: height/2;
-    system.addFish(x,y,random(30,50));
+    int x = random(0, 1) > 0.5? width: -width;
+    int y = random(0, 1) > 0.5? height: height/2;
+    system.addFish(x, y, random(30, 50));
     println("Ha pasado 10 segundos, realiza algo aquí");
     lastTime = currentTime;
   }
-  
+
   //sistemas de corrientes y peces
   /*
   mouse.x = mouseX;
-  mouse.y = mouseY;
-  
-  if (mousePressed && mouseButton == LEFT) {
-    system.addFish(mouseX, mouseY, 50);// float mass = 50;
-  }
-  if (keyPressed && key == 'a') {
-    system.attract(mouseX, mouseY, attractForce);
-  }
-  if (keyPressed && key == 'z') {
-    system.repel(mouseX, mouseY, attractForce);
-  }
-  */
-  system.update();  
+   mouse.y = mouseY;
+   
+   if (mousePressed && mouseButton == LEFT) {
+   system.addFish(mouseX, mouseY, 50);// float mass = 50;
+   }
+   if (keyPressed && key == 'a') {
+   system.attract(mouseX, mouseY, attractForce);
+   }
+   if (keyPressed && key == 'z') {
+   system.repel(mouseX, mouseY, attractForce);
+   }
+   */
+  system.update();
 }
 
 float[] distributeProbabilities() {
   Random random = new Random();
   float[] probabilities = new float[4];
   float remainingProbability = 1.0f;
-  
+
   for (int i = 0; i < 3; i++) {
     float minProbability = Math.max(0.1f, remainingProbability - 0.7f);
     float maxProbability = Math.min(0.7f, remainingProbability - 0.1f);
@@ -163,32 +168,31 @@ void keyPressed() {
   }
 }
 
-void mousePressed(){
-  if(mouseY > height*0.3 && mouseX > 70){
+void mousePressed() {
+  if (mouseY > height*0.3 && mouseX > 70) {
     barra.setVisible(true);
   }
 }
 
-void mouseReleased(){
-  if(mouseY > height*0.3  && mouseX > 70){
+void mouseReleased() {
+  if (mouseY > height*0.3  && mouseX > 70) {
     fuerzaRod = barra.getValue();
-    
+
     barco.lanzar(fuerzaRod);
   }
   barra.setValue(0);
   barra.setVisible(false);
 }
 
-void keyReleased(){
-    if (key == 'a' || key == 'd') {
+void keyReleased() {
+  if (key == 'a' || key == 'd') {
     userWindApplied = false;
   }
-  
 }
 
-void drawGradienteOceano() {
-  noStroke(); 
-  rectMode(CORNER); 
+void drawOceanGradient() {
+  noStroke();
+  rectMode(CORNER);
 
   // Cantidad de tonos azules
   int numTonos = height - (int)(height * 0.3);
@@ -202,174 +206,209 @@ void drawGradienteOceano() {
     rect(0, (height * 0.3) + i, width, 1);
   }
 }
+
+void drawWave(float yStart, float waveHeight, float wavelength) {
+  beginShape();
+  // Extremo izquierdo de la ventana
+  vertex(0, height);
   
+  for (float x = 0; x <= width; x++) {
+   
+    float y = yStart + noise((x / wavelength) + t) * waveHeight - waveHeight/2;
+    int c = getGradientColor(y + yStart); 
+    fill(c, 150); 
+    vertex(x, y);
+  }
+  //extremo derecho de la ventana
+  vertex(width, height);
+  endShape(CLOSE);
+  
+}
+
+// Función para obtener el color del gradiente basado en la altura y
+int getGradientColor(float y) {
+  float inter = map(y, height * 0.3, height, 0, 1);
+  return lerpColor(color(0, 0, 220, 100), color(0, 0, 140), inter);
+}
+
+void drawOceanSurface() {
+  for (int i = 0; i < 5; i++) {
+    drawWave(height * 0.3 + i * 20, 20 - i * 2, 200 - i * 40);
+  }
+}
+
 void createMenu(int x, int y) {
 
   int spacing = 30;
   int knobSize = 150;
   int sliderOffset = 50;
-  int checkboxOffset = 30; 
-  
-   ControlFont customFont = new ControlFont(createFont("Arial", 18));
-  
+  int checkboxOffset = 30;
+
+  ControlFont customFont = new ControlFont(createFont("Arial", 18));
+
   // Perillas
   cp5.addKnob("FuerzaViento")
-     .setPosition(1920*x/width - knobSize - spacing, 1080*y/height - knobSize/2)
-     .setRadius(knobSize/2)
-     .setRange(0, 255)
-     .setValue(128)
-     .setFont(customFont);
+    .setPosition(1920*x/width - knobSize - spacing, 1080*y/height - knobSize/2)
+    .setRadius(knobSize/2)
+    .setRange(0, 255)
+    .setValue(128)
+    .setFont(customFont);
 
   cp5.addKnob("FuerzaCorriente")
-     .setPosition(1920*x/width + spacing, 1080*y/height - knobSize/2)
-     .setRadius(knobSize/2)
-     .setRange(0, 100)
-     .setValue(50)
-     .setFont(customFont);
+    .setPosition(1920*x/width + spacing, 1080*y/height - knobSize/2)
+    .setRadius(knobSize/2)
+    .setRange(0, 100)
+    .setValue(50)
+    .setFont(customFont);
 
-  // Sliders 
+  // Sliders
   payasoBarra = cp5.addSlider("pezPayaso")
-     .setPosition(1920*x/width - knobSize - spacing, 1080*y/height + knobSize/2 + sliderOffset)
-     .setWidth(200) 
-     .setHeight(30) 
-     .setRange(0, 1)
-     .setFont(customFont);
-     
+    .setPosition(1920*x/width - knobSize - spacing, 1080*y/height + knobSize/2 + sliderOffset)
+    .setWidth(200)
+    .setHeight(30)
+    .setRange(0, 1)
+    .setFont(customFont);
+
   pezPayaso = probabilidades[0];
   payasoBarra.setValue(pezPayaso);
   payasoBarra.addListener(new ControlListener() {
-        public void controlEvent(ControlEvent e) {
-          //println("pezPayaso ahorita: ", pezPayaso);
-          pezPayaso = payasoBarra.getValue();
-          //println("pezPayaso despues del getValue: ", pezPayaso);
-          //println("Debe ser menor de: ", 1-pezAngel-pezAtun-pezGlobo);
-          pezPayaso = constrain(pezPayaso,0,1-pezAngel-pezAtun-pezGlobo);
-          //println("pezPayaso despues del constrain: ", pezPayaso);
-          payasoBarra.setValue(pezPayaso);
-        }
-      });
+    public void controlEvent(ControlEvent e) {
+      //println("pezPayaso ahorita: ", pezPayaso);
+      pezPayaso = payasoBarra.getValue();
+      //println("pezPayaso despues del getValue: ", pezPayaso);
+      //println("Debe ser menor de: ", 1-pezAngel-pezAtun-pezGlobo);
+      pezPayaso = constrain(pezPayaso, 0, 1-pezAngel-pezAtun-pezGlobo);
+      //println("pezPayaso despues del constrain: ", pezPayaso);
+      payasoBarra.setValue(pezPayaso);
+    }
+  }
+  );
 
   globoBarra = cp5.addSlider("pezGlobo")
-     .setPosition(1920*x/width - knobSize - spacing, 1080*y/height + knobSize/2 + sliderOffset * 2)
-     .setWidth(200) 
-     .setHeight(30) 
-     .setRange(0, 1)
-     .setFont(customFont);
-  
+    .setPosition(1920*x/width - knobSize - spacing, 1080*y/height + knobSize/2 + sliderOffset * 2)
+    .setWidth(200)
+    .setHeight(30)
+    .setRange(0, 1)
+    .setFont(customFont);
+
   pezGlobo = probabilidades[1];
   globoBarra.setValue(pezGlobo);
   globoBarra.addListener(new ControlListener() {
-        public void controlEvent(ControlEvent e) {
-          pezGlobo = globoBarra.getValue();
-          pezGlobo = constrain(pezGlobo,0,1-pezAngel-pezAtun-pezPayaso);
-          globoBarra.setValue(pezGlobo);
-        }
-      });
+    public void controlEvent(ControlEvent e) {
+      pezGlobo = globoBarra.getValue();
+      pezGlobo = constrain(pezGlobo, 0, 1-pezAngel-pezAtun-pezPayaso);
+      globoBarra.setValue(pezGlobo);
+    }
+  }
+  );
 
   angelBarra = cp5.addSlider("pezAngel")
-     .setPosition(1920*x/width - knobSize - spacing, 1080*y/height + knobSize/2 + sliderOffset * 3)
-     .setWidth(200) 
-     .setHeight(30) 
-     .setRange(0, 1)
-     .setFont(customFont);
-  
+    .setPosition(1920*x/width - knobSize - spacing, 1080*y/height + knobSize/2 + sliderOffset * 3)
+    .setWidth(200)
+    .setHeight(30)
+    .setRange(0, 1)
+    .setFont(customFont);
+
   pezAngel = probabilidades[2];
   angelBarra.setValue(pezAngel);
   angelBarra.addListener(new ControlListener() {
-        public void controlEvent(ControlEvent e) {
-          pezAngel = angelBarra.getValue();
-          pezAngel = constrain(pezAngel,0,1-pezGlobo-pezAtun-pezPayaso);
-          angelBarra.setValue(pezAngel);
-        }
-      });
+    public void controlEvent(ControlEvent e) {
+      pezAngel = angelBarra.getValue();
+      pezAngel = constrain(pezAngel, 0, 1-pezGlobo-pezAtun-pezPayaso);
+      angelBarra.setValue(pezAngel);
+    }
+  }
+  );
 
   atunBarra = cp5.addSlider("pezAtun")
-     .setPosition(1920*x/width - knobSize - spacing, 1080*y/height + knobSize/2 + sliderOffset * 4)
-     .setWidth(200)
-     .setHeight(30)
-     .setRange(0, 1)
-     .setFont(customFont);
-     
+    .setPosition(1920*x/width - knobSize - spacing, 1080*y/height + knobSize/2 + sliderOffset * 4)
+    .setWidth(200)
+    .setHeight(30)
+    .setRange(0, 1)
+    .setFont(customFont);
+
   pezAtun = probabilidades[3];
   atunBarra.setValue(pezAtun);
   atunBarra.addListener(new ControlListener() {
     public void controlEvent(ControlEvent e) {
       pezAtun = atunBarra.getValue();
-      pezAtun = constrain(pezAtun,0,1-pezGlobo-pezAngel-pezPayaso);
+      pezAtun = constrain(pezAtun, 0, 1-pezGlobo-pezAngel-pezPayaso);
       atunBarra.setValue(pezAtun);
     }
-  });
+  }
+  );
 
   cp5.addTextlabel("titleLabel")
-                 .setText("Opciones de Carnada")
-                 .setPosition(1920*x/width - knobSize - spacing, 1080*y/height + knobSize/2 + sliderOffset * 5 + checkboxOffset)
-                 .setFont(customFont) 
-                 .setColor(color(255)) 
-                 .setColorBackground(color(0, 100));
+    .setText("Opciones de Carnada")
+    .setPosition(1920*x/width - knobSize - spacing, 1080*y/height + knobSize/2 + sliderOffset * 5 + checkboxOffset)
+    .setFont(customFont)
+    .setColor(color(255))
+    .setColorBackground(color(0, 100));
 
 
   // Checkboxes
   carnadaEscogidaCheckBox = cp5.addCheckBox("carnadaEscogidaCheckBox")
-     .setPosition(1920*x/width - knobSize - spacing, 1080*y/height + knobSize/2 + sliderOffset * 6 + checkboxOffset)
-     .setItemWidth(30) 
-     .setItemHeight(30) 
-     .setColorForeground(color(0,255,0))
-     .setColorActive(color(150))
-     .setColorLabel(color(255))
-     .setFont(customFont)
-     .addItem("Sardina", 1)
-     .addItem("Camarón", 2)
-     .addItem("Lombriz", 3)
-     .addItem("Ninguna", 4)
-     .setFont(customFont);
- 
-   for (Toggle t : carnadaEscogidaCheckBox.getItems()) {
-      t.addListener(new ControlListener() {
-        public void controlEvent(ControlEvent e) {
-          if (e.getController() instanceof Toggle) {
-            Toggle selectedToggle = (Toggle)e.getController();
-            int selectedValue = (int)selectedToggle.getValue();
-            String selectedItemName = selectedToggle.getName();
-            switch(selectedItemName){
-              case "Sardina":
-                carnadaEscogidaCheckBox.deactivateAll();
-                carnadaEscogidaCheckBox.activate(0);
-                carnadaEscogidaIndex = 0;
-                break;
-              case "Camarón":
-                carnadaEscogidaCheckBox.deactivateAll();
-                carnadaEscogidaCheckBox.activate(1);
-                carnadaEscogidaIndex = 1;
-                break;
-              case "Lombriz":
-                carnadaEscogidaCheckBox.deactivateAll();
-                carnadaEscogidaCheckBox.activate(2);
-                carnadaEscogidaIndex = 2;
-                break;
-              case "Ninguna":
-                carnadaEscogidaCheckBox.deactivateAll();
-                carnadaEscogidaCheckBox.activate(3);
-                carnadaEscogidaIndex = 3;
-                break;
-            }
-            barco.setBait(carnadaEscogidaIndex);
-            barco.rod.lanzada = false;
-            println("Elemento seleccionado: " + selectedItemName + " con valor " + selectedValue);
-            // Realiza acciones específicas basadas en el elemento seleccionado
+    .setPosition(1920*x/width - knobSize - spacing, 1080*y/height + knobSize/2 + sliderOffset * 6 + checkboxOffset)
+    .setItemWidth(30)
+    .setItemHeight(30)
+    .setColorForeground(color(0, 255, 0))
+    .setColorActive(color(150))
+    .setColorLabel(color(255))
+    .setFont(customFont)
+    .addItem("Sardina", 1)
+    .addItem("Camarón", 2)
+    .addItem("Lombriz", 3)
+    .addItem("Ninguna", 4)
+    .setFont(customFont);
+
+  for (Toggle t : carnadaEscogidaCheckBox.getItems()) {
+    t.addListener(new ControlListener() {
+      public void controlEvent(ControlEvent e) {
+        if (e.getController() instanceof Toggle) {
+          Toggle selectedToggle = (Toggle)e.getController();
+          int selectedValue = (int)selectedToggle.getValue();
+          String selectedItemName = selectedToggle.getName();
+          switch(selectedItemName) {
+          case "Sardina":
+            carnadaEscogidaCheckBox.deactivateAll();
+            carnadaEscogidaCheckBox.activate(0);
+            carnadaEscogidaIndex = 0;
+            break;
+          case "Camarón":
+            carnadaEscogidaCheckBox.deactivateAll();
+            carnadaEscogidaCheckBox.activate(1);
+            carnadaEscogidaIndex = 1;
+            break;
+          case "Lombriz":
+            carnadaEscogidaCheckBox.deactivateAll();
+            carnadaEscogidaCheckBox.activate(2);
+            carnadaEscogidaIndex = 2;
+            break;
+          case "Ninguna":
+            carnadaEscogidaCheckBox.deactivateAll();
+            carnadaEscogidaCheckBox.activate(3);
+            carnadaEscogidaIndex = 3;
+            break;
           }
+          barco.setBait(carnadaEscogidaIndex);
+          barco.rod.lanzada = false;
+          println("Elemento seleccionado: " + selectedItemName + " con valor " + selectedValue);
+          // Realiza acciones específicas basadas en el elemento seleccionado
         }
-      });
+      }
     }
- 
+    );
+  }
+
   barra = cp5.addSlider("fuerza")
-            .setPosition(width/2, 10)
-            .setSize(100, 20)
-            .setRange(0, 100)
-            .setValue(fuerzaRod)
-            .setColorForeground(color(255))
-            .setColorBackground(color(150))
-            .setColorValueLabel(0)
-            .setLabelVisible(false);
+    .setPosition(width/2, 10)
+    .setSize(100, 20)
+    .setRange(0, 100)
+    .setValue(fuerzaRod)
+    .setColorForeground(color(255))
+    .setColorBackground(color(150))
+    .setColorValueLabel(0)
+    .setLabelVisible(false);
   barra.setVisible(false);
 }
 
@@ -382,19 +421,19 @@ void FuerzaCorriente(float val) {
 }
 
 void pezPayaso(float val) {
-  pezPayaso = val; 
+  pezPayaso = val;
 }
 
 void pezGlobo(float val) {
-  pezGlobo = val; 
+  pezGlobo = val;
 }
 
 void pezAngel(float val) {
-  pezAngel = val; 
+  pezAngel = val;
 }
 
 void pezAtun(float val) {
-  pezAtun = val; 
+  pezAtun = val;
 }
 
 
