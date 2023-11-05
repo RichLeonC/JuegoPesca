@@ -62,7 +62,7 @@ void setup() {
   //size(1280,720);
   fullScreen(P2D, 1);
   gravity = new PVector(0, g, 0);
-  barco = new Barco(width*0.5, height*0.35, 10);
+  barco = new Barco(width*0.5, height*0.37, 10);
   probabilidades = distributeProbabilities();
   //Menu
   cp5 = new ControlP5(this);
@@ -249,8 +249,8 @@ int getGradientColor(float y) {
 }
 
 void drawOceanSurface() {
-  for (int i = 0; i < 7; i++) {
-    drawWave(height * 0.3 + i * 20, 20 - i * 2, 200 - i * 40);
+  for (int i = 0; i < 5; i++) {
+    drawWave(height * 0.3 + i * 20, 60 - i * 12, 200 - i * 40);
   }
 }
 
