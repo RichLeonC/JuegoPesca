@@ -38,8 +38,8 @@ PVector mouse;
 
 void setup() {
   frameRate(60);
-  size(1280,720);
-  //fullScreen(P2D, 1);
+ // size(1280,720);
+  fullScreen(P2D, 1);
   gravity = new PVector(0, g, 0);
   barco = new Barco(width/2, height*0.35, 10);
   //Menu
@@ -56,11 +56,11 @@ void setup() {
 
 void draw() {
   background(200, 220, 255);
-  // background(0);
-  fill(0, 0, 220, 100);
-  noStroke();
-  rectMode(CORNER);
-  rect(0, height*0.3, width, height*0.7); //El 30% es cielo, el 70% es agua
+  //fill(0, 0, 220, 100);
+  //noStroke();
+  //rectMode(CORNER);
+  //rect(0, height*0.3, width, height*0.7); //El 30% es cielo, el 70% es agua
+  drawGradienteOceano();
   barco.display();
   barco.update();
   if (mousePressed) {
@@ -134,6 +134,23 @@ void keyReleased(){
     userWindApplied = false;
   }
   
+}
+
+void drawGradienteOceano() {
+  noStroke(); 
+  rectMode(CORNER); 
+
+  // Cantidad de tonos azules
+  int numTonos = height - (int)(height * 0.3);
+
+  for (int i = 0; i < numTonos; i++) {
+    // Mapeo de la posición del rectángulo al rango de colores deseados
+    float inter = map(i, 0, numTonos, 0, 1);
+    int c = lerpColor(color(0, 0, 220, 100), color(0, 0, 140), inter);
+    fill(c);
+    // Dibujamos el rectángulo
+    rect(0, (height * 0.3) + i, width, 1);
+  }
 }
   
 void createMenu(int x, int y) {
