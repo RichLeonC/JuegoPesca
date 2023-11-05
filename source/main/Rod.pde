@@ -1,5 +1,5 @@
 class Rod extends Spring{
-   int largoCuerda = 30;
+   int largoCuerda = 50;
    ArrayList<Agent2D> agentesCuerda;
    ArrayList<RodThread> springsCuerda;
    PVector posBase;
@@ -12,7 +12,7 @@ class Rod extends Spring{
     agentesCuerda = new ArrayList();
     springsCuerda = new ArrayList();
     posBase = new PVector(x+100, y-200);
-    this.carnada = new Bait(posBase.x, posBase.y, 5, BaitType.NONE);
+    this.carnada = new Bait(posBase.x, posBase.y, 10, BaitType.NONE);
     crearCuerda(carnada);
   }
   
@@ -21,19 +21,19 @@ class Rod extends Spring{
     int pesoCarnada;
     switch(index){
       case 0:
-        pesoCarnada = 20; 
+        pesoCarnada = 25; 
         carnada = new Bait(posBase.x, posBase.y, pesoCarnada, BaitType.SARDINA);
         break;
       case 1:
-        pesoCarnada = 15;
+        pesoCarnada = 20;
         carnada = new Bait(posBase.x, posBase.y, pesoCarnada, BaitType.CAMARON);
         break;
       case 2:
-        pesoCarnada = 10;
+        pesoCarnada = 15;
         carnada = new Bait(posBase.x, posBase.y, pesoCarnada, BaitType.LOMBRIZ);
         break;
       default:
-        pesoCarnada = 5;
+        pesoCarnada = 10;
         carnada = new Bait(posBase.x, posBase.y, pesoCarnada, BaitType.NONE);
         break;
     }
@@ -43,11 +43,32 @@ class Rod extends Spring{
   void crearCuerda(Bait bait){
     agentesCuerda = new ArrayList();
     springsCuerda = new ArrayList();
-    Agent2D a1 = new Agent2D(posBase.x, posBase.y, carnada.mass/10);
+    Agent2D a1 = new Agent2D(posBase.x-restLen/2, posBase.y, 1);
+    float masaCuerda;
+    switch((int)carnada.mass){
+        case peso1:
+          masaCuerda = 0.2;
+          break;
+        case peso2:
+          masaCuerda = 2;
+          break;
+        case peso3:
+          masaCuerda = 3;
+          break;
+        case peso4:
+          masaCuerda = 4;
+          break;
+        default:
+          masaCuerda = 0;
+          break;
+      }
     agentesCuerda.add(a1);
     a1.fix();
     for (float i = 0; i < largoCuerda; i++) {
-        Agent2D a = new Agent2D(posBase.x + restLen*((posBase.x-100)%2), posBase.y, 0.5);
+        Agent2D a = new Agent2D(posBase.x + restLen*((posBase.x-100)%2), posBase.y, masaCuerda);
+        /*float c = i%2 != 0? 1: -1;
+        Agent2D a = new Agent2D(posBase.x + restLen/2*c, posBase.y, masaCuerda);
+        //println(a.pos.x);*/
         agentesCuerda.add(a);
         a.fix();
     }
@@ -70,6 +91,24 @@ class Rod extends Spring{
   
   void update(){
     int i = 0;
+    int largoMar;
+    switch((int)carnada.mass){
+      case peso1:
+        largoMar = 1;
+        break;
+      case peso2:
+        largoMar = 4;
+        break;
+      case peso3:
+        largoMar = 3;
+        break;
+      case peso4:
+        largoMar = 2;
+        break;
+      default:
+        largoMar = 0;
+        break;
+    }
     for (Agent2D a : agentesCuerda) {
       a.applyGravity(gravity);
       a.applyDrag(0.005);
@@ -78,14 +117,15 @@ class Rod extends Spring{
           a.applyDrag(0.3);
           a.applyForce(new PVector(0,-0.5*carnada.mass/100));
         }
-        else if( i < largoCuerda - 5){
+        else if( i < largoCuerda - largoMar){
           //a.fix();
-          a.applyForce(new PVector(0,-0.2));
+          a.applyForce(new PVector(0,-0.4));
           a.applyDrag(0.03);
         }
       }
       i++;
       a.update();
+      
     }
     for (RodThread s : springsCuerda) {
       s.update();
@@ -94,8 +134,20 @@ class Rod extends Spring{
     carnada.display();
   }
   
-  void moverBase(float x, float y){
+  /*void setPosiciones(float x, float y){
     posBase = new PVector(x,y);
+    for (float i = 0; i < agentesCuerda.size(); i++) {
+        Agent2D a = agentesCuerda.get((int)i);
+        if(a.fixed){
+          float c = i%2 != 0? 1: -1;
+          a.pos.x = (posBase.x + restLen/2*c);
+        }
+    }
+  }*/
+  
+  void moverBase(float x, float y){
+    //setPosiciones(x,y);
+    //carnada.pos.x = x + restLen/2;
     for(Agent2D a : agentesCuerda){
       if(a.fixed){
         a.pos = new PVector(x,y);
@@ -126,18 +178,33 @@ class Rod extends Spring{
    }
   }
   
-  void lanzar(float fuerza){
+  void lanzar(float fuerzaP){
+    //println(fuerzaP);
+    float fuerza;
+    switch((int)carnada.mass){
+        case peso1:
+          fuerza = fuerzaP*2;
+          break;
+        case peso2:
+          fuerza = fuerzaP*1.5;
+          break;
+        case peso3:
+          fuerza = fuerzaP*2;
+          break;
+        default:
+          fuerza = 0;
+          break;
+      }
     if(!lanzada){
       lanzada = true;
-      println("entra");
       Agent2D a2 = agentesCuerda.get(agentesCuerda.size()-1);
       a2.unfix();
-      a2.applyForce(new PVector(fuerza*a2.mass,-fuerza*a2.mass));
+      a2.applyForce(new PVector(fuerza,-fuerza*1.5));
       a2.update();
       for(int i = agentesCuerda.size()-2; i > 0; i--){
         Agent2D a = agentesCuerda.get(i);
         a.unfix();
-        a.applyForce(new PVector(10,-10));
+        a.applyForce(new PVector(fuerza*0.01,-fuerza*0.04));
         a.update();
       }
     }

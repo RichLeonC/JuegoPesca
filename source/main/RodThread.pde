@@ -11,13 +11,14 @@ class RodThread extends Spring {
     float displacement = len - restLen;
     springForce.setMag(-k * displacement);
     springForce.div(2);
-    constrain(springForce.x,-1,5);
-    constrain(springForce.y,-1,5);
     if(Double.isNaN(springForce.x) || Double.isNaN(springForce.y)){
         springForce.x = 0;
         springForce.y = 0;
         springForce.z = 0;
     }
+    //springForce.x = constrain(springForce.x,0.01,0.5);
+    //springForce.y = constrain(springForce.y,-0.5,-0.1);
+    println(springForce);
     a2.applyForce(springForce);
     springForce.mult(-1);
     a1.applyForce(springForce);

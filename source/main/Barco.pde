@@ -6,7 +6,7 @@ class Barco extends Agent2D {
     super(x, y, mass);
     r*=30;
     sail = new Sail(12, 10);
-    rod = new Rod(2,0.07,x,y);
+    rod = new Rod(2,0.03,x,y);
   }
   
   void applyWind(float wind){

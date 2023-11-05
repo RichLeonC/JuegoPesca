@@ -19,11 +19,11 @@ class FishSystem {
         a.pos.y = a.pos.y-barco.rod.carnada.mass/2;
       } else {
         if(a.pos.dist(barco.rod.carnada.pos) < 5){
-          println("Un pez Pesco la carnada");
+          //println("Un pez Pesco la carnada");
           barco.rod.pescado = true;
           a.pescado = true;
         }else if(a.pos.dist(barco.rod.carnada.pos) < 50 && !barco.rod.pescado){
-          println("Un pez persigue la carnada");
+          //println("Un pez persigue la carnada");
           a.seek(barco.rod.carnada.pos);
         }else{
           a.applyForce(field.getVector(a.pos.x, a.pos.y));

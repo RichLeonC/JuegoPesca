@@ -4,6 +4,11 @@ Barco barco;
 Sail sail;
 int MaxPeces = 30;
 
+final int peso1 = 10;
+final int peso2 = 15;
+final int peso3 = 20;
+final int peso4 = 25;
+
 int lastTime = 0; // Variable para realizar un seguimiento del tiempo del último evento
 int interval = 10000;
 
@@ -97,7 +102,7 @@ void draw() {
     int x = random(0,1) > 0.5? width: -width;
     int y = random(0,1) > 0.5? height: height/2;
     system.addFish(x,y,random(30,50));
-    println("Ha pasado 10 segundos, realiza algo aquí");
+    //println("Ha pasado 10 segundos, realiza algo aquí");
     lastTime = currentTime;
   }
   
@@ -171,8 +176,9 @@ void mousePressed(){
 
 void mouseReleased(){
   if(mouseY > height*0.3  && mouseX > 70){
+    //println("Entra a lanzar");
     fuerzaRod = barra.getValue();
-    
+    //println(fuerzaRod);
     barco.lanzar(fuerzaRod);
   }
   barra.setValue(0);
@@ -337,7 +343,7 @@ void createMenu(int x, int y) {
             }
             barco.setBait(carnadaEscogidaIndex);
             barco.rod.lanzada = false;
-            println("Elemento seleccionado: " + selectedItemName + " con valor " + selectedValue);
+            //println("Elemento seleccionado: " + selectedItemName + " con valor " + selectedValue);
             // Realiza acciones específicas basadas en el elemento seleccionado
           }
         }
