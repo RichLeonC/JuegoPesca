@@ -44,6 +44,10 @@ class FishSystem {
       if (a.pos.y < height * 0.3) {
         // Invertir su velocidad en el eje Y para hacerlo retroceder
         a.vel.y *= -1;      
+      } else if (a.pos.y > height) {
+          // Si el pez se encuentra por debajo del borde inferior de la pantalla, rebótalo.
+          a.vel.y *= -1;
+          a.pos.y = height; // Ajusta la posición para evitar que quede fuera de la pantalla.
       }
       a.update();
       a.display();
