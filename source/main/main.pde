@@ -1,4 +1,5 @@
 import controlP5.*;
+import ddf.minim.*;
 
 Barco barco;
 Sail sail;
@@ -63,6 +64,9 @@ float[] probabilidades;
 //oceano
 float t = 0;
 
+//Musica
+Minim minim;
+AudioPlayer player;
 
 
 void setup() {
@@ -74,6 +78,9 @@ void setup() {
   probabilidades = distributeProbabilities();
   //Menu
   cp5 = new ControlP5(this);
+  minim = new Minim(this);
+  player = minim.loadFile("chamba.mp3");
+  player.play();
 
 
   createMenu(width/10, width/18);
