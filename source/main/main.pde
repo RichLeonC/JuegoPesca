@@ -31,11 +31,12 @@ CheckBox carnadaEscogidaCheckBox;
 int carnadaEscogidaIndex;
 
 //imagenes
-PImage barcoSprite;
-PImage angelSprite;
-PImage atunSprite;
-PImage globoSprite;
-PImage payasoSprite;
+PImage BarcoSprite;
+PImage Nube1;
+PImage Nube2;
+PImage Nube3;
+PImage Nube4;
+
 
 
 float fuerzaRod;
@@ -86,16 +87,26 @@ void setup() {
   generateMultipleFish(5); // Genera 5 peces al inicio
   
   //imagenes
-  barcoSprite  = loadImage("Barco.png");
-  angelSprite  = loadImage("Angel.png");
-  atunSprite  = loadImage("Atun.png");
-  globoSprite  = loadImage("Globo.png");
-  payasoSprite  = loadImage("Payaso.png");
+  BarcoSprite  = loadImage("Barco.png");
+  Nube1  = loadImage("nubes0.png");
+  Nube3  = loadImage("nubes4.png");
+  Nube4  = loadImage("nubes3.png");
+  
+ 
+
 }
 
 void draw() {
   background(200, 220, 255);
   fill(0, 0, 220, 100);
+    
+  imageMode(CORNER);
+  image(Nube4, 0, 0, width/2, height/4); 
+  image(Nube1, width/2, height/12, width/2, height/4); 
+  imageMode(CENTER);
+  //image(Nube3,  width/4, height/5, width/6, height/6); 
+  
+  
   noStroke();
   //rectMode(CORNER);
   //rect(0, height*0.3, width, height*0.7); //El 30% es cielo, el 70% es agua

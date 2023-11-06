@@ -5,6 +5,8 @@
 class Bait extends Agent2D {
   BaitType type;
   PImage carnadaSprite;
+  float assetW;
+  float assetH;
 
   public Bait(float x, float y, float mass, BaitType type){
       super(x,y,mass);
@@ -12,19 +14,27 @@ class Bait extends Agent2D {
       switch(type){
         case SARDINA:
           this.carnadaSprite = loadImage("Sardina.png");
+          this.assetW = r * 10;
+          this.assetH = r * 10;
           this.c = color(128,128,128);
           break;
         case CAMARON:
           this.carnadaSprite = loadImage("Camaron.png");
           this.c = color(255,165,0);
+          this.assetW = r * 10;
+          this.assetH = r * 10;
           break;
         case LOMBRIZ:
           this.c = color(255,192,203);
-          this.carnadaSprite = loadImage("Camaron.png");
+          this.carnadaSprite = loadImage("Lombriz.png");
+          this.assetW = r * 10;
+          this.assetH = r * 14;
           break;
         default:
           this.c = color(0);
-          this.carnadaSprite = loadImage("Camaron.png");
+          this.assetW = r * 10;
+          this.assetH = r * 14;
+          this.carnadaSprite = loadImage("anzuelo.png");
           break;
       }
   }
@@ -35,7 +45,7 @@ class Bait extends Agent2D {
     noStroke();
     fill(c);
     imageMode(CENTER);
-    image(carnadaSprite, 0, 0, r * 10, r * 10);
+    image(carnadaSprite, -5, 0, assetW, assetH);
     popMatrix();
   }
   

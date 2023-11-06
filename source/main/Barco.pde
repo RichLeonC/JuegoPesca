@@ -76,7 +76,7 @@ class Barco extends Agent2D {
     vertex(-r/1.5, -r/2); //infierior izquierdo*/
     //endShape(CLOSE);*/
     imageMode(CENTER);
-    image(barcoSprite, 0, -r-4, r*4, r*4);    
+    image(BarcoSprite, 0, -r-4, r*4, r*4);    
     
     sail.display();
     popMatrix();
