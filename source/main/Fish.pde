@@ -51,24 +51,24 @@ class Fish extends Agent2D {
   void setColor(){
     switch(type){
       case GLOBO:
-        this.pezSprite = loadImage("Globo.png");;
+        this.pezSprite = loadImage("Globo.png");
         this.c = color(0,0,255);//azul
         break;
       case ANGEL:
         this.c = color(255); //blanco
-        this.pezSprite = loadImage("Angel.png");;
+        this.pezSprite = loadImage("Angel.png");
         break;
       case ATUN:
         this.c = color(156,156,156); //gris
-        this.pezSprite = loadImage("Atun.png");;
+        this.pezSprite = loadImage("Atun.png");
         break;
       case PAYASO:
         this.c = color(255,255,0); //amarillo
-        this.pezSprite = loadImage("Payaso.png");;
+        this.pezSprite = loadImage("Payaso.png");
         break;
       default:
         this.c = color(0);
-        this.pezSprite = loadImage("Atun.png");;
+        this.pezSprite = loadImage("Atun.png");
         break;
     
     }
