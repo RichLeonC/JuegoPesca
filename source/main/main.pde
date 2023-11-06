@@ -67,10 +67,10 @@ float t = 0;
 
 void setup() {
   frameRate(60);
-  //size(1280,720);
+  //size(1920,1080);
   fullScreen(P2D, 1);
   gravity = new PVector(0, g, 0);
-  barco = new Barco(width*0.5, height*0.37, 10);
+  barco = new Barco(width*0.5, height*0.35, 10);
   probabilidades = distributeProbabilities();
   //Menu
   cp5 = new ControlP5(this);
