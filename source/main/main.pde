@@ -98,9 +98,9 @@ void draw() {
   fill(0, 0, 220, 100);
   noStroke();
   //rectMode(CORNER);
-  rect(0, height*0.3, width, height*0.7); //El 30% es cielo, el 70% es agua
-  //drawOceanGradient();
-  //drawOceanSurface();
+  //rect(0, height*0.3, width, height*0.7); //El 30% es cielo, el 70% es agua
+  drawOceanGradient();
+  drawOceanSurface();
   t += 0.006;
   barco.display();
   barco.update();
@@ -244,12 +244,13 @@ void drawWave(float yStart, float waveHeight, float wavelength) {
   // Extremo izquierdo de la ventana
   vertex(0, height);
   
-  for (float x = 0; x <= width; x++) {
+  for (float x = 0; x <= width+50; x+=50) {
    
-    float y = yStart + noise((x / wavelength) + t) * waveHeight - waveHeight/2;
-    int c = getGradientColor(y + yStart); 
-    fill(c, 150); 
-    vertex(x, y);
+    float y1 = yStart + noise((x / wavelength) + t) * waveHeight - waveHeight/2;
+    int c1 = getGradientColor(y1 + yStart); 
+    fill(c1, 150); 
+    vertex(x, y1);
+
   }
   //extremo derecho de la ventana
   vertex(width, height);

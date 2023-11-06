@@ -49,6 +49,12 @@ class Barco extends Agent2D {
     
     sail.update();
     rod.moverBase(pos.x+100, pos.y-200+offsetY);
+    /*if (pos.y > height*0.4) {
+      applyForce(new PVector(0,-1));
+    }
+    applyGravity(new PVector(0,1));
+    applyDrag(0.2);
+    applyFriction(0.2);*/
   }
 
   void setBait(int index) {
