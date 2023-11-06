@@ -30,7 +30,10 @@ class Sail {
     for (int i = 0; i<rows; i++) {
       for (int j = 0; j < cols; j++) {
         Agent2D a = new Agent2D(j*cellWidth, i*cellHeight, 0.7);
-        if (j==0) a.fix();
+        if (j==0){
+          a.pos.x -= i*1.5;
+          a.fix();
+        }
         agents.add(a);
       }
     }

@@ -67,10 +67,10 @@ float t = 0;
 
 void setup() {
   frameRate(60);
-  //size(1280,720);
+  //size(1920,1080);
   fullScreen(P2D, 1);
   gravity = new PVector(0, g, 0);
-  barco = new Barco(width*0.5, height*0.37, 10);
+  barco = new Barco(width*0.5, height*0.35, 10);
   probabilidades = distributeProbabilities();
   //Menu
   cp5 = new ControlP5(this);
@@ -121,7 +121,7 @@ void draw() {
   if (currentTime - lastTime >= interval) {
     int x = random(0,1) > 0.5? width: -width;
     int y = random(0,1) > 0.5? height: height/2;
-    system.addFish(x,y,random(30,50));
+    system.addFish(x,y,50);
     //println("Ha pasado 10 segundos, realiza algo aquí");
     lastTime = currentTime;
   }
@@ -477,7 +477,7 @@ void pezAtun(float val) {
 void generateMultipleFish(int numFish) {
   for (int i = 0; i < numFish; i++) {
     float x = random(width); // Posición X aleatoria
-    float y = random(height * 0.5, height); // Posición Y aleatoria en la mitad inferior de la pantalla
+    float y = random(height * 0.6, height); // Posición Y aleatoria en la mitad inferior de la pantalla
     system.addFish(x, y, 50);
   }
 }

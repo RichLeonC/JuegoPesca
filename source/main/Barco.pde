@@ -17,6 +17,7 @@ class Barco extends Agent2D {
     r*=30;
     sail = new Sail(10, 9);
     rod = new Rod(2,0.03,x,y);
+    sail.setPosition(x-width/2+r/2+25, y-height*0.65+50);
   }
   
   void addPoints(FishType type){
@@ -75,15 +76,7 @@ class Barco extends Agent2D {
     vertex(-r/1.5, -r/2); //infierior izquierdo*/
     //endShape(CLOSE);*/
     imageMode(CENTER);
-    image(barcoSprite, 0, -r-4, r*4, r*4);
-    
-    //fill(100);
-    //rect(0, -r, r/15, -1.7*r); // Mastil
-   
-    if(!cond){
-    sail.setPosition(pos.x-16.7*r/2, pos.y - 12.7*r/2);
-    cond = true;
-    }
+    image(barcoSprite, 0, -r-4, r*4, r*4);    
     
     sail.display();
     popMatrix();
