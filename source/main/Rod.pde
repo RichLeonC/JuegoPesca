@@ -1,5 +1,5 @@
 class Rod extends Spring{
-   int largoCuerda = 50;
+   int largoCuerda = 30;
    ArrayList<Agent2D> agentesCuerda;
    ArrayList<RodThread> springsCuerda;
    PVector posBase;
