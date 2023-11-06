@@ -1,3 +1,4 @@
+
 class Barco extends Agent2D {
   Sail sail;
   Rod rod;
@@ -61,15 +62,18 @@ class Barco extends Agent2D {
     rotate(radians(roll));
     // Dibujar el cuerpo del barco
     fill(150, 75, 0);
-    beginShape();
-    vertex(-r, -r); //superior izquierdo
+    /*beginShape();
+    /*vertex(-r, -r); //superior izquierdo
     vertex(r, -r); //superior derecho
     vertex(r/1.5, -r/2); //inferior derecho
-    vertex(-r/1.5, -r/2); //infierior izquierdo
-    endShape(CLOSE);
-
-    fill(100);
-    rect(0, -r, r/15, -1.7*r); // Mastil
+    vertex(-r/1.5, -r/2); //infierior izquierdo*/
+    //endShape(CLOSE);*/
+    imageMode(CENTER);
+    image(barcoSprite, 0, -r-4, r*4, r*4);
+    
+    //fill(100);
+    //rect(0, -r, r/15, -1.7*r); // Mastil
+   
     if(!cond){
     sail.setPosition(pos.x-17.9*r/2, pos.y - 12.7*r/2);
     cond = true;

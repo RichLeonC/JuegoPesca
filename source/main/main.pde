@@ -30,6 +30,14 @@ float pezAtun = 0;
 CheckBox carnadaEscogidaCheckBox;
 int carnadaEscogidaIndex;
 
+//imagenes
+PImage barcoSprite;
+PImage angelSprite;
+PImage atunSprite;
+PImage globoSprite;
+PImage payasoSprite;
+
+
 float fuerzaRod;
 Slider barra;
 Slider payasoBarra;
@@ -76,6 +84,13 @@ void setup() {
   mouse = new PVector(0, 0);
   // Generar peces al inicio
   generateMultipleFish(5); // Genera 5 peces al inicio
+  
+  //imagenes
+  barcoSprite  = loadImage("Barco.png");
+  angelSprite  = loadImage("Angel.png");
+  atunSprite  = loadImage("Atun.png");
+  globoSprite  = loadImage("Globo.png");
+  payasoSprite  = loadImage("Payaso.png");
 }
 
 void draw() {
