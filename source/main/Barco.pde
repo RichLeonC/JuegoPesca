@@ -15,7 +15,7 @@ class Barco extends Agent2D {
   Barco(float x, float y, float mass) {
     super(x, y, mass);
     r*=30;
-    sail = new Sail(12, 10);
+    sail = new Sail(10, 9);
     rod = new Rod(2,0.03,x,y);
   }
   
@@ -64,7 +64,7 @@ class Barco extends Agent2D {
   @Override
     void display() {
     pushMatrix();
-    translate(pos.x, pos.y+offsetY);
+    translate(pos.x, pos.y+offsetY-55);
     rotate(radians(roll));
     // Dibujar el cuerpo del barco
     fill(150, 75, 0);
@@ -81,7 +81,7 @@ class Barco extends Agent2D {
     //rect(0, -r, r/15, -1.7*r); // Mastil
    
     if(!cond){
-    sail.setPosition(pos.x-17.9*r/2, pos.y - 12.7*r/2);
+    sail.setPosition(pos.x-16.7*r/2, pos.y - 12.7*r/2);
     cond = true;
     }
     
