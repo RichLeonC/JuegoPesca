@@ -34,28 +34,17 @@ class FishSystem {
           a.seek(barco.rod.carnada.pos);
           a.isChasing = true;
         }else{
-          a.applyForce(field.getVector(a.pos.x, a.pos.y));
           a.separateAlignCohere(fish);
           a.isChasing = false;
         }
       }
-      
-      // Verificar si el pez ha llegado a la mitad superior de la pantalla
-      if (a.pos.y < height * 0.3) {
-        // Invertir su velocidad en el eje Y para hacerlo retroceder
-        a.vel.y *= -1;      
-      } else if (a.pos.y > height) {
-          // Si el pez se encuentra por debajo del borde inferior de la pantalla, rebótalo.
-          a.vel.y *= -1;
-          a.pos.y = height; // Ajusta la posición para evitar que quede fuera de la pantalla.
-      }
+      a.applyForce(field.getVector(a.pos.x, a.pos.y));
       a.update();
       a.display();
       
 
     }
     for (Agent2D a : barco.rod.agentesCuerda) {     
-      // Verificar si el pez ha llegado a la mitad superior de la pantalla
       if (a.pos.y > height * 0.3) {
         a.applyForce(field.getVector(a.pos.x, a.pos.y).div(100));
       }

@@ -22,7 +22,7 @@ class Currents {
       for (int c = 0; c < cols; c++) {
         float noiseX = c * noiseRes;
         float noiseY = r * noiseRes;
-        float angle = map(noise(noiseX, noiseY, noiseT), 0, 1, 0, TWO_PI);
+        float angle = map(noise(noiseX, noiseY, noiseT), 0.1, 1, -PI/2, PI/2);
         grid[r][c] = PVector.fromAngle(angle);
         grid[r][c].setMag(defaultMag);
       }
@@ -33,7 +33,17 @@ class Currents {
       for (int c = 0; c < cols; c++) {
         float noiseX = c * noiseRes;
         float noiseY = r * noiseRes;
-        float angle = map(noise(noiseX, noiseY, noiseT), 0, 1, 0, TWO_PI);
+        float angle;
+        // Desactivar el flowfield en las primeras filas
+        if (r < 9) {
+            angle = 0; // Ángulo que no tiene influencia
+        } else if (r == 9 || r == 10 || r == 11 ) {
+                  angle = PI / 2;
+        } else if (r >= rows - 1) {
+            angle = PI * 1.5; // Ángulo de 90 grados para las dos últimas filas
+        } else {
+              angle = map(noise(noiseX, noiseY, noiseT), 0, 1, -PI/2, PI/2);
+        }        
         grid[r][c] = PVector.fromAngle(angle);
         grid[r][c].setMag(defaultMag);
       }

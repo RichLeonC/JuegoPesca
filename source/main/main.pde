@@ -93,7 +93,7 @@ void setup() {
   g2 = new PVector(0, 0.1);
   mouse = new PVector(0, 0);
   // Generar peces al inicio
-  generateMultipleFish(5); // Genera 5 peces al inicio
+  generateMultipleFish(10); // Genera 5 peces al inicio
   
   //imagenes
   BarcoSprite  = loadImage("Barco.png");
@@ -486,7 +486,7 @@ void pezAtun(float val) {
 void generateMultipleFish(int numFish) {
   for (int i = 0; i < numFish; i++) {
     float x = random(width); // Posición X aleatoria
-    float y = random(height * 0.6, height); // Posición Y aleatoria en la mitad inferior de la pantalla
+    float y = random(height * 0.5, height); // Posición Y aleatoria en la mitad inferior de la pantalla
     system.addFish(x, y, 50);
   }
 }
