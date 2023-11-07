@@ -30,6 +30,8 @@ float pezAngel = 0;
 float pezAtun = 0;
 CheckBox carnadaEscogidaCheckBox;
 int carnadaEscogidaIndex;
+Knob knobViento;
+Knob knobCorriente;
 
 //imagenes
 PImage BarcoSprite;
@@ -79,9 +81,9 @@ void setup() {
   probabilidades = distributeProbabilities();
   //Menu
   cp5 = new ControlP5(this);
-  minim = new Minim(this);
-  player = minim.loadFile("chamba.mp3");
-  player.play();
+ // minim = new Minim(this);
+  //player = minim.loadFile("chamba.mp3");
+  //player.play();
 
 
   createMenu(width/10, width/18);
@@ -112,11 +114,10 @@ void draw() {
   image(Nube1, width/2, height/12, width/2, height/4); 
   imageMode(CENTER);
   //image(Nube3,  width/4, height/5, width/6, height/6); 
-  
-  
   noStroke();
-  //rectMode(CORNER);
-  //rect(0, height*0.3, width, height*0.7); //El 30% es cielo, el 70% es agua
+
+  FuerzaViento = knobViento.getValue();
+  FuerzaCorriente = knobCorriente.getValue();
   drawOceanGradient();
   drawOceanSurface();
   t += 0.006;
@@ -144,21 +145,6 @@ void draw() {
     lastTime = currentTime;
   }
 
-  //sistemas de corrientes y peces
-  /*
-  mouse.x = mouseX;
-   mouse.y = mouseY;
-   
-   if (mousePressed && mouseButton == LEFT) {
-   system.addFish(mouseX, mouseY, 50);// float mass = 50;
-   }
-   if (keyPressed && key == 'a') {
-   system.attract(mouseX, mouseY, attractForce);
-   }
-   if (keyPressed && key == 'z') {
-   system.repel(mouseX, mouseY, attractForce);
-   }
-   */
   system.update();
 }
 
@@ -193,13 +179,15 @@ void keyPressed() {
 
   if (key == 'a') {
     userWindApplied = true;
+
     barco.applyForce(new PVector(-force, 0));
-    barco.applyWind(-0.1);
+    barco.applyWind(-FuerzaViento);
   } else if (key=='d') {
+   // println('d');
     userWindApplied = true;
 
     barco.applyForce(new PVector(force, 0));
-    barco.applyWind(0.1);
+    barco.applyWind(FuerzaViento);
   }
   if (key == ' ') {
     barco.recoger();
@@ -298,14 +286,15 @@ void createMenu(int x, int y) {
   ControlFont customFont = new ControlFont(createFont("Arial", 18));
 
   // Perillas
-  cp5.addKnob("FuerzaViento")
+  knobViento = cp5.addKnob("Fuerza Viento")
     .setPosition(1920*x/width - knobSize - spacing, 1080*y/height - knobSize/2)
     .setRadius(knobSize/2)
-    .setRange(0, 255)
-    .setValue(128)
+    .setRange(0, 1)
+    .setValue(0.1)
     .setFont(customFont);
+    
 
-  cp5.addKnob("FuerzaCorriente")
+  knobCorriente = cp5.addKnob("Fuerza Corriente")
     .setPosition(1920*x/width + spacing, 1080*y/height - knobSize/2)
     .setRadius(knobSize/2)
     .setRange(0, 100)
@@ -466,6 +455,8 @@ void createMenu(int x, int y) {
     .setLabelVisible(false);
   barra.setVisible(false);
 }
+
+
 
 void FuerzaViento(float val) {
   FuerzaViento = val;

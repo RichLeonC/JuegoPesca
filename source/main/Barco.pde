@@ -69,12 +69,6 @@ class Barco extends Agent2D {
     rotate(radians(roll));
     // Dibujar el cuerpo del barco
     fill(150, 75, 0);
-    /*beginShape();
-    /*vertex(-r, -r); //superior izquierdo
-    vertex(r, -r); //superior derecho
-    vertex(r/1.5, -r/2); //inferior derecho
-    vertex(-r/1.5, -r/2); //infierior izquierdo*/
-    //endShape(CLOSE);*/
     imageMode(CENTER);
     image(BarcoSprite, 0, -r-4, r*4, r*4);    
     

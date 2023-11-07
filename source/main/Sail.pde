@@ -81,10 +81,13 @@ class Sail {
 
 public void update() {
   for (Agent2D a : agents) {
-    //a.applyGravity(new PVector(0, 0.1));
+    if(FuerzaViento<=0.08){//g:0.1
+    a.applyGravity(new PVector(0, 0.15-FuerzaViento));
+    }
+    
     a.applyDrag(0.01);
     a.applyForce(wind);
-    if (!userWindApplied) applyWind(random(-0.1, 0.15));
+    if (!userWindApplied) applyWind(random(-FuerzaViento, FuerzaViento));
 
     a.update();
     //a.display();
