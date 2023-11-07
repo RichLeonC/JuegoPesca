@@ -119,7 +119,7 @@ void draw() {
   image(Nube4, 0, 0, width/2, height/4); 
   image(Nube2, width - width/2, 0, width/2, height/2);
   noStroke();
-
+  
   FuerzaViento = knobViento.getValue();
   FuerzaCorriente = knobCorriente.getValue();
   drawOceanGradient();
@@ -127,7 +127,8 @@ void draw() {
   imageMode(CORNER);
   image(CoralI, 0, height - height/2, width/2, height/2);
   image(CoralD, width - width/2, height - height/2, width/2, height/2);
-
+  
+  cp5.get(Textlabel.class, "puntosLabel").setText("Puntos: " + barco.puntos);
   t += (FuerzaCorriente*0.10);
   barco.display();
   barco.update();
@@ -292,6 +293,7 @@ void createMenu(int x, int y) {
   int checkboxOffset = 30;
 
   ControlFont customFont = new ControlFont(createFont("Arial", 18));
+  ControlFont fontPuntos = new ControlFont(createFont("Arial black", 30));
 
   // Perillas
   knobViento = cp5.addKnob("Fuerza Viento")
@@ -408,6 +410,12 @@ void createMenu(int x, int y) {
      .addItem("Lombriz", 3)
      .addItem("Ninguna", 4)
      .setFont(customFont);
+     
+     cp5.addTextlabel("puntosLabel")
+     .setText("Puntos: "+barco.puntos)
+     .setPosition(width*1725/1920,height*35/1080)
+     .setColorValue(0)
+     .setFont(fontPuntos);
  
    for (Toggle t : carnadaEscogidaCheckBox.getItems()) {
       t.addListener(new ControlListener() {
