@@ -243,7 +243,7 @@ class Fish extends Agent2D {
     int cohesionCount = 0;
 
     for (Fish a : agents) {
-        if (a != this && a.type == this.type) {
+        if (a != this) {
             float distance = pos.dist(a.pos);
 
             if (distance < alignmentRadio) {
@@ -259,7 +259,7 @@ class Fish extends Agent2D {
                 separateCount++;
             }
 
-            if (distance < cohesionRadio) {
+            if (a.type == this.type && (distance < cohesionRadio)) {
                 cohesion.add(a.pos);
                 cohesionCount++;
             }
