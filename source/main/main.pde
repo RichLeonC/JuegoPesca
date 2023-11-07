@@ -22,8 +22,8 @@ boolean isHandlingEvent = false;
 
 //menu
 ControlP5 cp5; //ControlP5
-float FuerzaViento = 128;
-float FuerzaCorriente = 50;
+float FuerzaViento = 0.1;
+float FuerzaCorriente = 0.006;
 float pezPayaso = 0;
 float pezGlobo = 0;
 float pezAngel = 0;
@@ -81,9 +81,9 @@ void setup() {
   probabilidades = distributeProbabilities();
   //Menu
   cp5 = new ControlP5(this);
- // minim = new Minim(this);
-  //player = minim.loadFile("chamba.mp3");
-  //player.play();
+  minim = new Minim(this);
+  player = minim.loadFile("fishingSong.mp3");
+  player.play();
 
 
   createMenu(width/10, width/18);
