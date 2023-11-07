@@ -4,8 +4,8 @@ class Barco extends Agent2D {
   Rod rod;
   int puntos;
 
-  float oscilationAmplitude = 2; // Amplitud de la oscilacion vertical
-  float oscilationFrequency = 0.5; // Frecuencia de la oscilacion
+  float oscilationAmplitude = 3; // Amplitud de la oscilacion vertical
+  float oscilationFrequency = 4; // Frecuencia de la oscilacion
   float rollAmplitude = 3; // Amplitud del balanceo
   float rollFrequency = 1.5; // Frecuencia del balanceo
   float offsetY = 0; // Desplazamiento vertical
@@ -43,7 +43,7 @@ class Barco extends Agent2D {
 
   void update() {
     super.update();
-   
+    rollFrequency = 1+FuerzaCorriente*11;
     offsetY = sin(millis() * oscilationFrequency * 0.001) * oscilationAmplitude;
 
     roll = sin(millis() * rollFrequency * 0.001) * rollAmplitude;

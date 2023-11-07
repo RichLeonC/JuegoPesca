@@ -40,7 +40,7 @@ PImage Nube2;
 PImage Nube3;
 PImage Nube4;
 
-
+float forceBoat = 5;
 
 float fuerzaRod;
 Slider barra;
@@ -120,7 +120,7 @@ void draw() {
   FuerzaCorriente = knobCorriente.getValue();
   drawOceanGradient();
   drawOceanSurface();
-  t += 0.006;
+  t += (FuerzaCorriente*0.10);
   barco.display();
   barco.update();
   if (mousePressed) {
@@ -175,18 +175,18 @@ float[] distributeProbabilities() {
 }
 
 void keyPressed() {
-  float force = 5;
-
+  
+  forceBoat = 5-(FuerzaViento*3.5);
+  
   if (key == 'a') {
     userWindApplied = true;
-
-    barco.applyForce(new PVector(-force, 0));
+    
+    barco.applyForce(new PVector(-forceBoat, 0));
     barco.applyWind(-FuerzaViento);
   } else if (key=='d') {
-   // println('d');
     userWindApplied = true;
 
-    barco.applyForce(new PVector(force, 0));
+    barco.applyForce(new PVector(forceBoat, 0));
     barco.applyWind(FuerzaViento);
   }
   if (key == ' ') {
@@ -252,7 +252,7 @@ void drawWave(float yStart, float waveHeight, float wavelength) {
   
   for (float x = 0; x <= width+50; x+=50) {
    
-    float y1 = yStart + noise((x / wavelength) + t) * waveHeight - waveHeight/2;
+    float y1 = yStart + noise((x / wavelength) +t) * waveHeight - waveHeight/2;
     int c1 = getGradientColor(y1 + yStart); 
     fill(c1, 150); 
     vertex(x, y1);
@@ -297,8 +297,8 @@ void createMenu(int x, int y) {
   knobCorriente = cp5.addKnob("Fuerza Corriente")
     .setPosition(1920*x/width + spacing, 1080*y/height - knobSize/2)
     .setRadius(knobSize/2)
-    .setRange(0, 100)
-    .setValue(50)
+    .setRange(0.00, 0.30)
+    .setValue(0.06)
     .setFont(customFont);
 
   // Sliders
