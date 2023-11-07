@@ -70,7 +70,8 @@ class Barco extends Agent2D {
     // Dibujar el cuerpo del barco
     fill(150, 75, 0);
     imageMode(CENTER);
-    image(BarcoSprite, 0, -r-4, r*4, r*4);    
+    image(BarcoSprite, 0, -r-4, r*4, r*4);
+
     
     sail.display();
     popMatrix();

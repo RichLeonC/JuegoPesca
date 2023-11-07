@@ -39,6 +39,8 @@ PImage Nube1;
 PImage Nube2;
 PImage Nube3;
 PImage Nube4;
+PImage CoralI;
+PImage CoralD;
 
 float forceBoat = 5;
 
@@ -98,8 +100,12 @@ void setup() {
   //imagenes
   BarcoSprite  = loadImage("Barco.png");
   Nube1  = loadImage("nubes0.png");
+  Nube2  = loadImage("nubes1.png");
   Nube3  = loadImage("nubes4.png");
   Nube4  = loadImage("nubes3.png");
+  
+  CoralI  = loadImage("CoralesIzq.png");
+  CoralD  = loadImage("CoralesDer.png");
   
  
 
@@ -111,15 +117,17 @@ void draw() {
     
   imageMode(CORNER);
   image(Nube4, 0, 0, width/2, height/4); 
-  image(Nube1, width/2, height/12, width/2, height/4); 
-  imageMode(CENTER);
-  //image(Nube3,  width/4, height/5, width/6, height/6); 
+  image(Nube2, width - width/2, 0, width/2, height/2);
   noStroke();
 
   FuerzaViento = knobViento.getValue();
   FuerzaCorriente = knobCorriente.getValue();
   drawOceanGradient();
   drawOceanSurface();
+  imageMode(CORNER);
+  image(CoralI, 0, height - height/2, width/2, height/2);
+  image(CoralD, width - width/2, height - height/2, width/2, height/2);
+
   t += (FuerzaCorriente*0.10);
   barco.display();
   barco.update();
