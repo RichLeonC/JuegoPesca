@@ -310,7 +310,8 @@ void createMenu(int x, int y) {
     .setRadius(knobSize/2)
     .setRange(0, 1)
     .setValue(0.1)
-    .setFont(customFont);
+    .setFont(customFont)
+    .setColorCaptionLabel(color(0));
     
 
   knobCorriente = cp5.addKnob("Fuerza Corriente")
@@ -318,7 +319,8 @@ void createMenu(int x, int y) {
     .setRadius(knobSize/2)
     .setRange(0.00, 0.30)
     .setValue(0.06)
-    .setFont(customFont);
+    .setFont(customFont)
+    .setColorCaptionLabel(color(0));
 
   // Sliders
   payasoBarra = cp5.addSlider("pezPayaso")
@@ -326,7 +328,8 @@ void createMenu(int x, int y) {
     .setWidth(200)
     .setHeight(30)
     .setRange(0, 1)
-    .setFont(customFont);
+    .setFont(customFont)
+    .setColorCaptionLabel(color(0));
 
   pezPayaso = probabilidades[0];
   payasoBarra.setValue(pezPayaso);
@@ -348,7 +351,8 @@ void createMenu(int x, int y) {
     .setWidth(200)
     .setHeight(30)
     .setRange(0, 1)
-    .setFont(customFont);
+    .setFont(customFont)
+    .setColorCaptionLabel(color(0));
 
   pezGlobo = probabilidades[1];
   globoBarra.setValue(pezGlobo);
