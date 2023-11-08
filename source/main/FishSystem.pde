@@ -30,7 +30,6 @@ class FishSystem {
         a.pescado = true;
         this.pescando = false;
         barraPelea.win = false;
-        botonPescar.setVisible(false);
       } 
        
       if(a.pescado){
@@ -42,12 +41,12 @@ class FishSystem {
           println("Un pez Pesco la carnada");
           barco.rod.pescado = true;
           this.pescando = true; 
+          print("jej");
            
         }else if(barraPelea.Win()){
           a.pescado = true;
           this.pescando = false;
           this.barraPelea.win = false;
-          botonPescar.setVisible(false);
        } else if(a.pos.dist(barco.rod.carnada.pos) < 50 && !barco.rod.pescado && matchTypes(a.type,barco.rod.carnada.type)){
           println("Un pez persigue la carnada");
           a.seek(barco.rod.carnada.pos);
