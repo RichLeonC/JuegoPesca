@@ -50,6 +50,7 @@ Slider payasoBarra;
 Slider globoBarra;
 Slider atunBarra;
 Slider angelBarra;
+Button botonPescar;
 
 color colorVerde = color(0, 255, 0);
 color colorAmarillo = color(255, 255, 0);
@@ -155,6 +156,10 @@ void draw() {
   }
 
   system.update();
+  if(system.pescando){   
+    botonPescar.setVisible(true);
+    system.barraPelea.displayBarra();
+  }   
 }
 
 float[] distributeProbabilities() {
@@ -470,6 +475,12 @@ void createMenu(int x, int y) {
     .setColorValueLabel(0)
     .setLabelVisible(false);
   barra.setVisible(false);
+  
+    botonPescar = cp5.addButton("pescar")
+     .setPosition(width / 2 - 50, height - 50)
+     .setSize(100, 40)
+     .setLabel("Clic aquí")
+     .setVisible(false);
 }
 
 
@@ -498,6 +509,10 @@ void pezAtun(float val) {
   pezAtun = val;
 }
 
+void pescar(){
+  print("entra");
+  system.barraPelea.clicButton();
+}
 
 void generateMultipleFish(int numFish) {
   for (int i = 0; i < numFish; i++) {

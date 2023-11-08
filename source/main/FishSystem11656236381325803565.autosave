@@ -30,11 +30,12 @@ class FishSystem {
         a.pos = barco.rod.carnada.pos;
         a.pos.y = a.pos.y-barco.rod.carnada.mass/2;
       } else {
-        if(a.pos.dist(barco.rod.carnada.pos) < 15 && a.isChasing){
+        if(a.pos.dist(barco.rod.carnada.pos) < 5 && a.isChasing){
           println("Un pez Pesco la carnada");
           barco.rod.pescado = true;
-          this.pescando = true; 
-           
+          this.pescando = true;          
+          //a.pescado = true;
+          
         }else if(a.pos.dist(barco.rod.carnada.pos) < 50 && !barco.rod.pescado && matchTypes(a.type,barco.rod.carnada.type)){
           println("Un pez persigue la carnada");
           a.seek(barco.rod.carnada.pos);
@@ -44,18 +45,8 @@ class FishSystem {
           a.isChasing = false;
         }
       }
-      
-      if(barraPelea.Win()){
-        a.pescado = true;
-        this.pescando = false;
-        barraPelea.win = false;
-        botonPescar.setVisible(false);
-       } 
-       
-      if(!pescando){
-         a.applyForce(field.getVector(a.pos.x, a.pos.y));
-         a.update();
-      }
+      a.applyForce(field.getVector(a.pos.x, a.pos.y));
+      a.update();
       a.display();
       
     }

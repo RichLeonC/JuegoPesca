@@ -83,6 +83,12 @@ class Fish extends Agent2D {
     borders();
   }
   
+  void updatePescado() {
+    vel.add(acc);
+    vel.limit(maxSpeed);
+    acc.mult(0);
+    borders();
+  }
   
   @Override  
   void display() {
@@ -93,12 +99,6 @@ class Fish extends Agent2D {
     translate(pos.x, pos.y);
     //point(0, 0);
     rotate(vel.heading());
-    /*beginShape();
-    vertex(r, 0);
-    vertex(-2.0/3.0 * r, -2.0/3.0 * r);
-    vertex(-r/3.0, 0);
-    vertex(-2.0/3.0 * r, 2.0/3.0 * r);
-    endShape(CLOSE);*/
     scale(1, -1);
 
     imageMode(CORNERS);
