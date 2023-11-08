@@ -115,7 +115,6 @@ void setup() {
 void draw() {
   background(200, 220, 255);
   fill(0, 0, 220, 100);
-    
   imageMode(CORNER);
   image(Nube4, 0, 0, width/2, height/4); 
   image(Nube2, width - width/2, 0, width/2, height/2);
@@ -477,9 +476,9 @@ void createMenu(int x, int y) {
   barra.setVisible(false);
   
     botonPescar = cp5.addButton("pescar")
-     .setPosition(width / 2 - 50, height - 50)
-     .setSize(100, 40)
-     .setLabel("Clic aquí")
+     .setPosition(width / 2 - 50, height/2 + 50)
+     .setSize(width/10, 40)
+     .setLabel("PESCAR")
      .setVisible(false);
 }
 
