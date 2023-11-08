@@ -38,7 +38,7 @@ class FishSystem {
         a.pos = barco.rod.carnada.pos;
         a.pos.y = a.pos.y-barco.rod.carnada.mass/2;
       } else {
-        if(a.pos.dist(barco.rod.carnada.pos) < 10 && a.isChasing){
+        if(a.pos.dist(barco.rod.carnada.pos) < 20 && a.isChasing){
           println("Un pez Pesco la carnada");
           barco.rod.pescado = true;
           this.pescando = true; 

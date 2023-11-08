@@ -32,7 +32,7 @@ class Fish extends Agent2D {
     damp = 0.6;
     borderBehaviour = BorderBehaviour.WRAP;
     maxSpeed = 1;
-    maxSteeringForce = 1;
+    maxSteeringForce = 2;
     arrivalRadius = 300;
     lookAhead = 40;
     wanderRadius = 30;
@@ -40,8 +40,8 @@ class Fish extends Agent2D {
     wanderNoise = random(100);
     wanderNoiseInc = 0.01;
     pathAhead = 30;
-    separationRadio = 100;
-    separationRatio = 6; 
+    separationRadio = 150;
+    separationRatio = 10; 
     alignmentRadio = 80;
     alignmentRatio = 1;
     cohesionRadio = 150;
