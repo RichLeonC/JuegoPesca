@@ -90,7 +90,12 @@ void setup() {
 
 
   createMenu(width/10, width/18);
-
+  botonPescar = cp5.addButton("pescar")
+     .setPosition(width / 2 - 50, height/2 + 50)
+     .setSize(width/10, 40)
+     .setLabel("PESCAR")
+     .setVisible(false);
+     
   //Sistema de corrientes y peces
   system = new FishSystem();
   g2 = new PVector(0, 0.1);
@@ -155,10 +160,10 @@ void draw() {
   }
 
   system.update();
-  if(system.pescando){   
+  if(system.pescando == true){   
     botonPescar.setVisible(true);
     system.barraPelea.displayBarra();
-  }   
+  }
 }
 
 float[] distributeProbabilities() {
@@ -474,12 +479,7 @@ void createMenu(int x, int y) {
     .setColorValueLabel(0)
     .setLabelVisible(false);
   barra.setVisible(false);
-  
-    botonPescar = cp5.addButton("pescar")
-     .setPosition(width / 2 - 50, height/2 + 50)
-     .setSize(width/10, 40)
-     .setLabel("PESCAR")
-     .setVisible(false);
+ 
 }
 
 
@@ -509,8 +509,10 @@ void pezAtun(float val) {
 }
 
 void pescar(){
-  print("entra");
-  system.barraPelea.clicButton();
+  if(system.pescando == true){
+    print("entra");
+    system.barraPelea.clicButton();
+  }
 }
 
 void generateMultipleFish(int numFish) {

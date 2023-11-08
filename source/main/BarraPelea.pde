@@ -16,28 +16,27 @@ public BarraPelea(){
 
 void displayBarra(){
 
-       // Dibujar la barra de progreso
-      fill(0, 150, 255);
-      rectMode(CORNER);
-      rect(500, height / 2 - 10, width/2, 20);
-      
-      // Dibujar el rango resaltado
-      fill(255, 0, 0, 150); // Color semitransparente
-      float inicioX = map(rangoInicio, 500, dato, 0, width/2);
-      float finX = map(rangoFin, 500, dato, 0, width/2); 
-      rect(inicioX, height / 2 - 10, finX - inicioX, 20);
-      
-      // Dibujar la bolita
-      fill(0, 0, 255);
-      ellipse(bolitaX, height / 2, diametroBolita, diametroBolita);
-      
-      // Verificar si la bolita está dentro del rango resaltado
-      if (bolitaX >= inicioX && bolitaX <= finX) {
-        fill(0, 255, 0);
-      }
-      
-      // Actualizar la posición de la bolita en cada frame
-      controlEvent(null);   
+    // Dibujar la barra de progreso
+    fill(200);
+    rect(0, height / 2 - 10, width, 20);
+    
+    // Dibujar el rango resaltado
+    fill(255, 0, 0, 150); // Color semitransparente
+    float inicioX = map(rangoInicio, 0, dato, 0, width);
+    float finX = map(rangoFin, 0, dato, 0, width);
+    rect(inicioX, height / 2 - 10, finX - inicioX, 20);
+    
+    // Dibujar la bolita
+    fill(0, 0, 255);
+    ellipse(bolitaX, height / 2, diametroBolita, diametroBolita);
+    
+    // Verificar si la bolita está dentro del rango resaltado
+    if (bolitaX >= inicioX && bolitaX <= finX) {
+      fill(0, 255, 0);
+    }
+    
+    // Actualizar la posición de la bolita en cada frame
+    controlEvent(null); 
     
   }
  
@@ -45,7 +44,9 @@ void displayBarra(){
     // Verificar si la bolita está dentro del rango resaltado al hacer clic
     if (bolitaX >= map(rangoInicio, 0, dato, 0, width) && bolitaX <= map(rangoFin, 0, dato, 0, width)) {
       println("¡Clic correcto!");
+      system.pescando = false;
       this.win = true;
+      botonPescar.setVisible(false);
     } else {
       println("¡Clic incorrecto!");
       this.win = false;
