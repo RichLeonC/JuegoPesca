@@ -45,13 +45,13 @@ class Currents {
       for (int c = 0; c < cols; c++) {
         float noiseX = c * noiseRes;
         float noiseY = r * noiseRes;
-        float angle = map(noise(noiseX, noiseY, noiseT), 0, 1, 1, 5);
+        float angle = map(noise(noiseX, noiseY, noiseT), 0.1, 1, 1, 5);
 
         if(r == rows-2 || r == rows-1){ // Los de abajo apuntan arriba
           angle = -1.6;
         }
         else if(r == rows-3){ 
-          angle = map(noise(noiseX, noiseY, noiseT), 0, 1, 3*PI/4, 5*PI/4);
+          angle = map(noise(noiseX, noiseY, noiseT), 0.1, 1, 3*PI/4, 5*PI/4);
         }
         else if(c == cols - 2 || c == cols - 1 || c == 0 || c == 1  ){ //los de los extremos apuntan a la izquierda
           angle = 3.14;

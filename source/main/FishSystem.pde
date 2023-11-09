@@ -43,7 +43,6 @@ class FishSystem {
         a.pos = barco.rod.carnada.pos;
       }
       else if(a.pescado){
-        a.isChasing = false;
         a.acc = new PVector(0,0);
         a.pos = barco.rod.carnada.pos;
         a.pos.y = a.pos.y-barco.rod.carnada.mass/2;
@@ -78,7 +77,10 @@ class FishSystem {
           a.isChasing = false;
         }
       }      
-      
+      a.separateAlignCohere(fish);
+      if(a.pos.y < height * 0.35){
+        a.applyForce(new PVector(0,1));
+      }
       a.update();
       a.display();
     }

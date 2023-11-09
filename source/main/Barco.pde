@@ -49,7 +49,7 @@ class Barco extends Agent2D {
     roll = sin(millis() * rollFrequency * 0.001) * rollAmplitude;
     
     sail.update();
-    rod.moverBase(pos.x+100, pos.y-200+offsetY);
+    rod.moverBase(pos.x+195, pos.y-100+offsetY);
     /*if (pos.y > height*0.4) {
       applyForce(new PVector(0,-1));
     }

@@ -12,7 +12,7 @@ class Rod extends Spring{
     super(restLen, k);
     agentesCuerda = new ArrayList();
     springsCuerda = new ArrayList();
-    posBase = new PVector(x+100, y-200);
+    posBase = new PVector(0,0);
     this.carnada = new Bait(posBase.x, posBase.y, 10, BaitType.NONE);
     crearCuerda(carnada);
   }
