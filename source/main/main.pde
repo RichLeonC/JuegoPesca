@@ -51,7 +51,7 @@ Slider payasoBarra;
 Slider globoBarra;
 Slider atunBarra;
 Slider angelBarra;
-Button botonPescar;
+
 
 color colorVerde = color(0, 255, 0);
 color colorAmarillo = color(255, 255, 0);
@@ -91,11 +91,6 @@ void setup() {
 
 
   createMenu(width/10, width/18);
-  botonPescar = cp5.addButton("pescar")
-     .setPosition(width / 2 - 50, height/2 + 50)
-     .setSize(width/10, 40)
-     .setLabel("PESCAR")
-     .setVisible(false);
      
   //Sistema de corrientes y peces
   system = new FishSystem();
@@ -123,7 +118,7 @@ void draw() {
   fill(0, 0, 220, 100);
   imageMode(CORNER);
   image(Nube4, 0, 0, width/2, height/4); 
-  image(Nube2, width - width/2, 0, width/2, height/2);
+  image(Nube1, width - width/2 + 100, 0, width/2 - 100, height/4 + 50);
   noStroke();
   
   FuerzaViento = knobViento.getValue();
@@ -161,7 +156,6 @@ void draw() {
 
   system.update();
   if(system.pescando == true){   
-    botonPescar.setVisible(true);
     system.barraPelea.displayBarra();
   }
 }
@@ -215,6 +209,11 @@ void keyPressed() {
   }
   if(key == 's'){
     barco.rod.substractPeso();
+  } 
+  if(system.pescando == true){
+    if(key == 'p'){
+        pescar();
+    }
   }
 }
 
@@ -515,7 +514,7 @@ void pezAtun(float val) {
 void pescar(){
   if(system.pescando == true){
     print("entra");
-    system.barraPelea.clicButton();
+    system.barraPelea.evaluarPesca();
   }
 }
 

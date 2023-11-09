@@ -29,22 +29,22 @@ class FishSystem {
         a.pescado = true;
         this.pescando = false;
         barraPelea.win = false;
-        botonPescar.setVisible(false);
-      }
-      if (a.pescado) {
-        a.acc = new PVector(0, 0);
+      } 
+       
+      if(a.pescado){
+        a.acc = new PVector(0,0);
         a.pos = barco.rod.carnada.pos;
         a.pos.y = a.pos.y-barco.rod.carnada.mass/2;
       } else {
         if (a.pos.dist(barco.rod.carnada.pos) < 20 && a.isChasing) {
           barco.rod.pescado = true;
-          this.pescando = true;
-        } else if (barraPelea.Win()) {
+          this.pescando = true; 
+           
+        }else if(barraPelea.Win()){
           a.pescado = true;
           this.pescando = false;
           this.barraPelea.win = false;
-          botonPescar.setVisible(false);
-        } else if (a.pos.dist(barco.rod.carnada.pos) < 50 && !barco.rod.pescado && matchTypes(a.type, barco.rod.carnada.type)) {
+       } else if(a.pos.dist(barco.rod.carnada.pos) < 50 && !barco.rod.pescado && matchTypes(a.type,barco.rod.carnada.type)){
           println("Un pez persigue la carnada");
           a.seek(barco.rod.carnada.pos);
           a.isChasing = true;
