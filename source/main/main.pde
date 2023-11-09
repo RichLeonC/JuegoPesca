@@ -119,7 +119,7 @@ void setup() {
   minim = new Minim(this);
   player = minim.loadFile("fishingSong.mp3");
   player.play();
-
+  player.setGain(-25f);
 
   createMenu(width/10, width/18);
 
