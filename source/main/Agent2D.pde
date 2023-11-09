@@ -41,7 +41,7 @@ class Agent2D {
     popMatrix();
   }
   void randomVel(float mag) {
-    vel = PVector.random2D();
+    vel = new PVector(0,0);
     vel.setMag(mag);
   }
   void applyForce(PVector force) {
@@ -94,7 +94,10 @@ class Agent2D {
     } else if (borderBehaviour == BorderBehaviour.WRAP) {
       if (pos.x > width + r) pos.x = -r;
       if (pos.x < -r) pos.x = width + r;
-      if (pos.y > height + r) pos.y = -r;
+      if (pos.y > height + r){
+        pos.y = height * 0.8;
+        pos.x = width;
+      }
       if (pos.y < -r) pos.y = height + r;
     } else if (borderBehaviour == BorderBehaviour.NONE) {
     }

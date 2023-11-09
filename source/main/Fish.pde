@@ -32,7 +32,7 @@ class Fish extends Agent2D {
     damp = 0.6;
     borderBehaviour = BorderBehaviour.WRAP;
     maxSpeed = 1;
-    maxSteeringForce = 2;
+    maxSteeringForce = 1;
     arrivalRadius = 300;
     lookAhead = 40;
     wanderRadius = 30;
@@ -40,11 +40,11 @@ class Fish extends Agent2D {
     wanderNoise = random(100);
     wanderNoiseInc = 0.01;
     pathAhead = 30;
-    separationRadio = 150;
-    separationRatio = 10; 
+    separationRadio = 20;
+    separationRatio = 3; 
     alignmentRadio = 80;
     alignmentRatio = 1;
-    cohesionRadio = 150;
+    cohesionRadio = 120;
     cohesionRatio = 1;
   }
   
@@ -105,6 +105,35 @@ class Fish extends Agent2D {
     image(pezSprite, 0, -r-2, r*10, r*10);
     popMatrix();
   }
+  
+  @Override
+  void borders() {
+      if (pos.x > width + r) pos.x = -r;
+      if (pos.x < -r) pos.x = width + r;
+      if (pos.y > height + r){
+        setFishPos();
+        pos.x = width;
+      }
+      if (pos.y < width*0.2){
+        applyForce(new PVector(-1,1));
+      }
+  }
+  
+  void setFishPos(){
+    if (type == FishType.ANGEL) {
+          pos.y = random(height* 0.4, height * 0.8);
+    } else if (type == FishType.PAYASO) {
+        pos.y = random(height * 0.4, height * 0.5);
+    } else if (type == FishType.ATUN) {
+        pos.y = random(height *0.7, height * 0.8);
+    } else if (type == FishType.GLOBO){
+        pos.y = random(height * 0.6, height * 0.8);
+    }
+  
+  }
+  
+  
+  
   @Override
   void applyForce(PVector force) {
     PVector f = force.copy();
@@ -259,7 +288,7 @@ class Fish extends Agent2D {
                 separateCount++;
             }
 
-            if (a.type == this.type && (distance < cohesionRadio)) {
+            if (distance < cohesionRadio && a.type == this.type) {
                 cohesion.add(a.pos);
                 cohesionCount++;
             }

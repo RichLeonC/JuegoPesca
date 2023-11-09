@@ -10,7 +10,7 @@ class Currents {
 
   Currents(int size) {
     defaultMag = 1;
-    noiseRes = 0.1;
+    noiseRes = 0.2;
     noiseT = random(100);
     noiseInc = 0.01;
     this.size = size;
@@ -22,7 +22,19 @@ class Currents {
       for (int c = 0; c < cols; c++) {
         float noiseX = c * noiseRes;
         float noiseY = r * noiseRes;
-        float angle = map(noise(noiseX, noiseY, noiseT), 0.1, 1, 0, -TWO_PI);
+        float angle = map(noise(noiseX, noiseY, noiseT), 0.1, 1, TWO_PI, 0);
+        if(r == rows-2 || r == rows-1){ // Los de abajo apuntan arriba
+          angle = -1.6;
+        }
+        else if(r == rows-4){ // Los de abajo apuntan arriba
+          angle = map(noise(noiseX, noiseY, noiseT), 0.1, 1, -4.71,-4.71);
+        }
+        else if(c == cols - 2 || c == cols - 1 || c == 0 || c == 1  ){ //los de los extremos apuntan a la izquierda
+          angle = 3.14;
+        }
+        else if(r < 8){
+          angle = -4.71;
+        }
         grid[r][c] = PVector.fromAngle(angle);
         grid[r][c].setMag(defaultMag);
       }
@@ -33,19 +45,23 @@ class Currents {
       for (int c = 0; c < cols; c++) {
         float noiseX = c * noiseRes;
         float noiseY = r * noiseRes;
-        float angle;
+        float angle = map(noise(noiseX, noiseY, noiseT), 0, 1, 1, 5);
 
-        if (r < 8) {
-            angle = PI * 1.5;  //Solución temporal para evitar peces en el cielo
-        } else if ( r == 8 ) {
-                  angle = HALF_PI;  //Evitar que los peces salgan del mar                      
-        } else if ( r == 9 || r == 10 ) {
-                  angle = map(noise(noiseX, noiseY, noiseT), 0, 1, 1, PI);
-        } else if (r >= rows - 2) {
-            angle = PI * 1.5; // Ángulo de 90 grados para la última fila, para
-        } else {
-            angle = map(noise(noiseX, noiseY, noiseT), 0, 1, 0, -TWO_PI);
-        }        
+        if(r == rows-2 || r == rows-1){ // Los de abajo apuntan arriba
+          angle = -1.6;
+        }
+        else if(r == rows-3){ 
+          angle = map(noise(noiseX, noiseY, noiseT), 0, 1, 3*PI/4, 5*PI/4);
+        }
+        else if(c == cols - 2 || c == cols - 1 || c == 0 || c == 1  ){ //los de los extremos apuntan a la izquierda
+          angle = 3.14;
+        }
+        else if(r < 7){
+          angle = -4.71;
+        }
+        else if(r < 8){
+          angle = map(noise(noiseX, noiseY, noiseT), 0.1, 1, -PI, -3*PI/2);
+        }
         grid[r][c] = PVector.fromAngle(angle);
         grid[r][c].setMag(defaultMag);
       }

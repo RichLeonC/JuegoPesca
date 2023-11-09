@@ -3,7 +3,8 @@ import ddf.minim.*;
 
 Barco barco;
 Sail sail;
-int MaxPeces = 30;
+int maxPeces = 30;
+int cantPecesActual = 0;
 
 final int peso1 = 10;
 final int peso2 = 15;
@@ -84,9 +85,9 @@ void setup() {
   probabilidades = distributeProbabilities();
   //Menu
   cp5 = new ControlP5(this);
-  minim = new Minim(this);
-  player = minim.loadFile("fishingSong.mp3");
-  player.play();
+  //minim = new Minim(this);
+  //player = minim.loadFile("fishingSong.mp3");
+  //player.play();
 
 
   createMenu(width/10, width/18);
@@ -101,7 +102,7 @@ void setup() {
   g2 = new PVector(0, 0.1);
   mouse = new PVector(0, 0);
   // Generar peces al inicio
-  generateMultipleFish(10); // Genera 5 peces al inicio
+  generateMultipleFish(); // Genera 5 peces al inicio
   
   //imagenes
   BarcoSprite  = loadImage("Barco.png");
@@ -151,10 +152,9 @@ void draw() {
     barra.setColorForeground(colorActual);
   }
   int currentTime = millis();
-  if (currentTime - lastTime >= interval) {
-    int x = random(0,1) > 0.5? width: -width;
-    int y = random(0,1) > 0.5? height: height/2;
-    system.addFish(x,y,50);
+  if (currentTime - lastTime >= interval && cantPecesActual <= maxPeces) {
+    system.addFish();
+    cantPecesActual++;
     //println("Ha pasado 10 segundos, realiza algo aquí");
     lastTime = currentTime;
   }
@@ -519,10 +519,8 @@ void pescar(){
   }
 }
 
-void generateMultipleFish(int numFish) {
-  for (int i = 0; i < numFish; i++) {
-    float x = random(width); // Posición X aleatoria
-    float y = random(height * 0.5, height); // Posición Y aleatoria en la mitad inferior de la pantalla
-    system.addFish(x, y, 50);
+void generateMultipleFish() {
+  for (int i = 0; i < maxPeces/10; i++) {
+    system.addFish();
   }
 }
