@@ -149,17 +149,7 @@ class Rod extends Spring{
     }
     carnada.display();
   }
-  
-  /*void setPosiciones(float x, float y){
-    posBase = new PVector(x,y);
-    for (float i = 0; i < agentesCuerda.size(); i++) {
-        Agent2D a = agentesCuerda.get((int)i);
-        if(a.fixed){
-          float c = i%2 != 0? 1: -1;
-          a.pos.x = (posBase.x + restLen/2*c);
-        }
-    }
-  }*/
+ 
   
   void moverBase(float x, float y){
     //setPosiciones(x,y);

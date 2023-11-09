@@ -43,6 +43,10 @@ PImage Nube3;
 PImage Nube4;
 PImage CoralI;
 PImage CoralD;
+PImage sardinaSprite;
+PImage camaronSprite;
+PImage lombrizSprite;
+PImage anzueloSpriteImg;
 
 float forceBoat = 5;
 
@@ -83,6 +87,20 @@ void setup() {
   frameRate(60);
   //size(1920,1080);
   fullScreen(P2D, 1);
+    //imagenes
+  BarcoSprite  = loadImage("Barco.png");
+  Nube1  = loadImage("nubes0.png");
+  Nube2  = loadImage("nubes1.png");
+  Nube3  = loadImage("nubes4.png");
+  Nube4  = loadImage("nubes3.png");
+
+
+  CoralI  = loadImage("CoralesIzq.png");
+  CoralD  = loadImage("CoralesDer.png");
+  sardinaSprite = loadImage("Sardina.png");
+  camaronSprite = loadImage("Camaron.png");
+  lombrizSprite = loadImage("Lombriz.png");
+  anzueloSpriteImg = loadImage("anzuelo.png");
   gravity = new PVector(0, g, 0);
   barco = new Barco(width*0.5, height*0.35, 10);
   probabilidades = distributeProbabilities();
@@ -94,25 +112,14 @@ void setup() {
 
 
   createMenu(width/10, width/18);
-     
+
   //Sistema de corrientes y peces
   system = new FishSystem();
   g2 = new PVector(0, 0.1);
   mouse = new PVector(0, 0);
   // Generar peces al inicio
   generateMultipleFish(); // Genera 5 peces al inicio
-  
-  //imagenes
-  BarcoSprite  = loadImage("Barco.png");
-  Nube1  = loadImage("nubes0.png");
-  Nube2  = loadImage("nubes1.png");
-  Nube3  = loadImage("nubes4.png");
-  Nube4  = loadImage("nubes3.png");
-  
-  CoralI  = loadImage("CoralesIzq.png");
-  CoralD  = loadImage("CoralesDer.png");
-  
- 
+
 
 }
 
@@ -120,10 +127,9 @@ void draw() {
   background(200, 220, 255);
   fill(0, 0, 220, 100);
   imageMode(CORNER);
-  image(Nube4, 0, 0, width/2, height/4); 
+  image(Nube4, 0, 0, width/2, height/4);
   image(Nube1, width - width/2 + 100, 0, width/2 - 100, height/4 + 50);
   noStroke();
-  
   FuerzaViento = knobViento.getValue();
   FuerzaCorriente = knobCorriente.getValue();
   drawOceanGradient();
@@ -131,7 +137,7 @@ void draw() {
   imageMode(CORNER);
   image(CoralI, 0, height - height/2, width/2, height/2);
   image(CoralD, width - width/2, height - height/2, width/2, height/2);
-  
+
   cp5.get(Textlabel.class, "puntosLabel").setText("Puntos: " + barco.puntos);
   t += (FuerzaCorriente*0.10);
   barco.display();
@@ -158,7 +164,7 @@ void draw() {
   }
 
   system.update();
-  if(system.pescando == true){   
+  if (system.pescando == true) {
     barraPelea.displayBarra();
   }
 }
@@ -190,12 +196,12 @@ float[] distributeProbabilities() {
 }
 
 void keyPressed() {
-  
+
   forceBoat = 5-(FuerzaViento*3.5);
-  
+
   if (key == 'a') {
     userWindApplied = true;
-    
+
     barco.applyForce(new PVector(-forceBoat, 0));
     barco.applyWind(-FuerzaViento);
   } else if (key=='d') {
@@ -207,15 +213,15 @@ void keyPressed() {
   if (key == ' ') {
     barco.recoger();
   }
-  if(key == 'w'){
+  if (key == 'w') {
     barco.rod.addPeso();
   }
-  if(key == 's'){
+  if (key == 's') {
     barco.rod.substractPeso();
-  } 
-  if(system.pescando == true){
-    if(key == 'p'){
-        pescar();
+  }
+  if (system.pescando == true) {
+    if (key == 'p') {
+      pescar();
     }
   }
 }
@@ -226,17 +232,16 @@ void mousePressed() {
   }
 }
 
-void mouseReleased(){
-  if(mouseY > height*0.3  && mouseX > 70){
+void mouseReleased() {
+  if (mouseY > height*0.3  && mouseX > 70) {
     //println("Entra a lanzar");
     fuerzaRod = barra.getValue();
-    if(mouseX < barco.pos.x){
+    if (mouseX < barco.pos.x) {
       barco.lanzar(-fuerzaRod);
-    }else{
+    } else {
       barco.lanzar(fuerzaRod);
     }
     //println(fuerzaRod);
-    
   }
   barra.setValue(0);
   barra.setVisible(false);
@@ -269,19 +274,17 @@ void drawWave(float yStart, float waveHeight, float wavelength) {
   beginShape();
   // Extremo izquierdo de la ventana
   vertex(0, height);
-  
-  for (float x = 0; x <= width+50; x+=50) {
-   
-    float y1 = yStart + noise((x / wavelength) +t) * waveHeight - waveHeight/2;
-    int c1 = getGradientColor(y1 + yStart); 
-    fill(c1, 150); 
-    vertex(x, y1);
 
+  for (float x = 0; x <= width+50; x+=50) {
+
+    float y1 = yStart + noise((x / wavelength) +t) * waveHeight - waveHeight/2;
+    int c1 = getGradientColor(y1 + yStart);
+    fill(c1, 150);
+    vertex(x, y1);
   }
   //extremo derecho de la ventana
   vertex(width, height);
   endShape(CLOSE);
-  
 }
 
 // Función para obtener el color del gradiente basado en la altura y
@@ -314,7 +317,7 @@ void createMenu(int x, int y) {
     .setValue(0.1)
     .setFont(customFont)
     .setColorCaptionLabel(color(0));
-    
+
 
   knobCorriente = cp5.addKnob("Fuerza Corriente")
     .setPosition(1920*x/width + spacing, 1080*y/height - knobSize/2)
@@ -413,61 +416,61 @@ void createMenu(int x, int y) {
 
   // Checkboxes
   carnadaEscogidaCheckBox = cp5.addCheckBox("carnadaEscogidaCheckBox")
-     .setPosition(1920*x/width - knobSize - spacing, 1080*y/height + knobSize/2 + sliderOffset * 6 + checkboxOffset)
-     .setItemWidth(30) 
-     .setItemHeight(30) 
-     .setColorForeground(color(0,255,0))
-     .setColorActive(color(150))
-     .setColorLabel(color(255))
-     .setFont(customFont)
-     .addItem("Sardina", 1)
-     .addItem("Camarón", 2)
-     .addItem("Lombriz", 3)
-     .addItem("Ninguna", 4)
-     .setFont(customFont);
-     
-     cp5.addTextlabel("puntosLabel")
-     .setText("Puntos: "+barco.puntos)
-     .setPosition(width*1475/1920,height*35/1080)
-     .setColorValue(0)
-     .setFont(fontPuntos);
- 
-   for (Toggle t : carnadaEscogidaCheckBox.getItems()) {
-      t.addListener(new ControlListener() {
-        public void controlEvent(ControlEvent e) {
-          if (e.getController() instanceof Toggle) {
-            Toggle selectedToggle = (Toggle)e.getController();
-            int selectedValue = (int)selectedToggle.getValue();
-            String selectedItemName = selectedToggle.getName();
-            switch(selectedItemName){
-              case "Sardina":
-                carnadaEscogidaCheckBox.deactivateAll();
-                carnadaEscogidaCheckBox.activate(0);
-                carnadaEscogidaIndex = 0;
-                break;
-              case "Camarón":
-                carnadaEscogidaCheckBox.deactivateAll();
-                carnadaEscogidaCheckBox.activate(1);
-                carnadaEscogidaIndex = 1;
-                break;
-              case "Lombriz":
-                carnadaEscogidaCheckBox.deactivateAll();
-                carnadaEscogidaCheckBox.activate(2);
-                carnadaEscogidaIndex = 2;
-                break;
-              case "Ninguna":
-                carnadaEscogidaCheckBox.deactivateAll();
-                carnadaEscogidaCheckBox.activate(3);
-                carnadaEscogidaIndex = 3;
-                break;
-            }
-            barco.setBait(carnadaEscogidaIndex);
-            barco.rod.lanzada = false;
-            //println("Elemento seleccionado: " + selectedItemName + " con valor " + selectedValue);
-            // Realiza acciones específicas basadas en el elemento seleccionado
+    .setPosition(1920*x/width - knobSize - spacing, 1080*y/height + knobSize/2 + sliderOffset * 6 + checkboxOffset)
+    .setItemWidth(30)
+    .setItemHeight(30)
+    .setColorForeground(color(0, 255, 0))
+    .setColorActive(color(150))
+    .setColorLabel(color(255))
+    .setFont(customFont)
+    .addItem("Sardina", 1)
+    .addItem("Camarón", 2)
+    .addItem("Lombriz", 3)
+    .addItem("Ninguna", 4)
+    .setFont(customFont);
+
+  cp5.addTextlabel("puntosLabel")
+    .setText("Puntos: "+barco.puntos)
+    .setPosition(width*1475/1920, height*35/1080)
+    .setColorValue(0)
+    .setFont(fontPuntos);
+
+  for (Toggle t : carnadaEscogidaCheckBox.getItems()) {
+    t.addListener(new ControlListener() {
+      public void controlEvent(ControlEvent e) {
+        if (e.getController() instanceof Toggle) {
+          Toggle selectedToggle = (Toggle)e.getController();
+          int selectedValue = (int)selectedToggle.getValue();
+          String selectedItemName = selectedToggle.getName();
+          switch(selectedItemName) {
+          case "Sardina":
+            carnadaEscogidaCheckBox.deactivateAll();
+            carnadaEscogidaCheckBox.activate(0);
+            carnadaEscogidaIndex = 0;
+            break;
+          case "Camarón":
+            carnadaEscogidaCheckBox.deactivateAll();
+            carnadaEscogidaCheckBox.activate(1);
+            carnadaEscogidaIndex = 1;
+            break;
+          case "Lombriz":
+            carnadaEscogidaCheckBox.deactivateAll();
+            carnadaEscogidaCheckBox.activate(2);
+            carnadaEscogidaIndex = 2;
+            break;
+          case "Ninguna":
+            carnadaEscogidaCheckBox.deactivateAll();
+            carnadaEscogidaCheckBox.activate(3);
+            carnadaEscogidaIndex = 3;
+            break;
+          }
           barco.setBait(carnadaEscogidaIndex);
           barco.rod.lanzada = false;
-          println("Elemento seleccionado: " + selectedItemName + " con valor " + selectedValue);
+          //println("Elemento seleccionado: " + selectedItemName + " con valor " + selectedValue);
+          // Realiza acciones específicas basadas en el elemento seleccionado
+          barco.setBait(carnadaEscogidaIndex);
+          barco.rod.lanzada = false;
+          //println("Elemento seleccionado: " + selectedItemName + " con valor " + selectedValue);
           // Realiza acciones específicas basadas en el elemento seleccionado
         }
       }
@@ -485,7 +488,6 @@ void createMenu(int x, int y) {
     .setColorValueLabel(0)
     .setLabelVisible(false);
   barra.setVisible(false);
- 
 }
 
 
@@ -514,9 +516,8 @@ void pezAtun(float val) {
   pezAtun = val;
 }
 
-void pescar(){
-  if(system.pescando){
-    print("entra");
+void pescar() {
+  if (system.pescando) {
     barraPelea.evaluarPesca();
   }
 }

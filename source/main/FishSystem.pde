@@ -32,7 +32,7 @@ class FishSystem {
           system.pescando = false;
           barraPelea.win = 2;
         }else if (barraPelea.Win() == 0){
-          println("Pero si entra aqui");
+         // println("Pero si entra aqui");
           a.picado = false;
           a.isChasing = false;
           a.pescado = false;
@@ -59,7 +59,7 @@ class FishSystem {
       else if(a.huyendo){
         a.pos = a.pos.copy();
         if (currentTime - a.huyeTime >= 3000) {
-          println("Entra aqui nooo");
+         // println("Entra aqui nooo");
           a.huyendo = false;
         }
         a.applyForce(field.getVector(a.pos.x, a.pos.y));
@@ -68,7 +68,7 @@ class FishSystem {
       }
       else{
         if(a.pos.dist(barco.rod.carnada.pos) < 100 && !barco.rod.pescado && matchTypes(a.type,barco.rod.carnada.type) && !a.huyendo){
-          println("Un pez persigue la carnada");
+         // println("Un pez persigue la carnada");
           a.seek(barco.rod.carnada.pos);
           a.isChasing = true;
         } else {

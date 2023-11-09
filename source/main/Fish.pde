@@ -120,7 +120,7 @@ class Fish extends Agent2D {
     } else if (type == FishType.GLOBO){
         pos.y = random(height * 0.6, height * 0.8);
     }*/
-    println("Sis");
+   // println("Sis");
     pos.y = random(height*0.3, height*0.5);
   
   }

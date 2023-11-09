@@ -49,11 +49,11 @@ void displayBarra(){
  void evaluarPesca() {
     // Verificar si la bolita está dentro del rango resaltado al hacer clic
     if (bolitaX >= map(rangoInicio, 0, dato, 0, width) && bolitaX <= map(rangoFin, 0, dato, 0, width)) {
-      println("¡Clic correcto!");
+      //println("¡Clic correcto!");
       system.pescando = false;
       this.win = 1;
     } else {
-      println("¡Clic incorrecto!");
+      //println("¡Clic incorrecto!");
       this.win = 0;
       system.pescando = false;
     }
