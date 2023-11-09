@@ -47,6 +47,10 @@ PImage sardinaSprite;
 PImage camaronSprite;
 PImage lombrizSprite;
 PImage anzueloSpriteImg;
+PImage pezAngelSprite;
+PImage pezGloboSprite;
+PImage pezPayasoSprite;
+PImage pezAtunSprite;
 
 float forceBoat = 5;
 
@@ -101,6 +105,12 @@ void setup() {
   camaronSprite = loadImage("Camaron.png");
   lombrizSprite = loadImage("Lombriz.png");
   anzueloSpriteImg = loadImage("anzuelo.png");
+  
+ pezAngelSprite = loadImage("Angel.png");
+ pezGloboSprite = loadImage("Globo.png");
+ pezPayasoSprite = loadImage("Payaso.png");
+ pezAtunSprite = loadImage("Atun.png");
+  
   gravity = new PVector(0, g, 0);
   barco = new Barco(width*0.5, height*0.35, 10);
   probabilidades = distributeProbabilities();
