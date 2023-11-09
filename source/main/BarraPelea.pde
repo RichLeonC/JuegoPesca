@@ -7,7 +7,7 @@ int rangoInicio = 10;
 int rangoFin = 20; 
 int diametroBolita = 20; 
 float bolitaX; 
-boolean win = false;
+int win = 2; //Cero perdio, 1 gano, 2 neutro (jugando o sin empezar)
 
 public BarraPelea(){
   
@@ -19,6 +19,7 @@ void setRango(){
    this.rangoInicio =  (int) random(10, 80 + 1);
    this.rangoFin =  (int) random(20, 90 + 1);
 }
+
 void displayBarra(){
 
     // Dibujar la barra de progreso
@@ -50,17 +51,17 @@ void displayBarra(){
     if (bolitaX >= map(rangoInicio, 0, dato, 0, width) && bolitaX <= map(rangoFin, 0, dato, 0, width)) {
       println("¡Clic correcto!");
       system.pescando = false;
-      this.win = true;
+      this.win = 1;
     } else {
       println("¡Clic incorrecto!");
-      this.win = false;
+      this.win = 0;
       system.pescando = false;
     }
     
     setRango();
   }
   
-Boolean Win(){
+int Win(){
   return win;
 }
   

@@ -1,4 +1,4 @@
- enum BorderBehaviour {
+enum BorderBehaviour { //<>//
   NONE, BORDERS, WRAP
 }
 
@@ -41,23 +41,23 @@ class Agent2D {
     popMatrix();
   }
   void randomVel(float mag) {
-    vel = new PVector(0,0);
+    vel = new PVector(0, 0);
     vel.setMag(mag);
   }
   void applyForce(PVector force) {
-    if(!fixed){
+    if (!fixed) {
       PVector f = force.copy();
       f.div(mass);
       acc.add(f);
     }
   }
   void applyGravity(PVector force) {
-    if(!fixed){
+    if (!fixed) {
       acc.add(force);
     }
   }
   void applyFriction(float c) {
-    if(!fixed){
+    if (!fixed) {
       PVector fric = vel.copy();
       fric.normalize();
       fric.mult(-c);
@@ -65,9 +65,9 @@ class Agent2D {
     }
   }
   void applyDrag(float c) {
-    if(!fixed){
+    if (!fixed) {
       PVector drag = vel.copy();
-      drag.normalize(); //<>//
+      drag.normalize();
       drag.mult(vel.magSq());
       drag.mult(-c);
       applyForce(drag);
@@ -75,8 +75,8 @@ class Agent2D {
   }
   void fix() {
     fixed = true;
-    acc = new PVector(0,0);
-    vel = new PVector(0,0);
+    acc = new PVector(0, 0);
+    vel = new PVector(0, 0);
   }
   void unfix() {
     fixed = false;
@@ -93,8 +93,11 @@ class Agent2D {
       }
     } else if (borderBehaviour == BorderBehaviour.WRAP) {
       if (pos.x > width + r) pos.x = -r;
-      if (pos.x < -r) pos.x = width + r;
-      if (pos.y > height + r){
+      if (pos.x < -r) {
+        pos.x = width + r;
+        pos.y = random(height * 0.35, height*0.6);
+      }
+      if (pos.y > height + r) {
         pos.y = height * 0.8;
         pos.x = width;
       }

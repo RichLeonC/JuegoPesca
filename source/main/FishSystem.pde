@@ -4,7 +4,6 @@ class FishSystem {
   ArrayList<Fish> fish;
   Currents field;
   Boolean pescando = false;
-  BarraPelea barraPelea;
 
 
   FishSystem() {
@@ -16,49 +15,70 @@ class FishSystem {
   // este método también dibuja en pantalla
   void update() {
     field.update();
-    field.display();
+    //field.display();
     for (Fish a : fish) {
-      if (a.pos.y < barco.pos.y && a.pescado) {
-        fish.remove(a);
-        barco.addPoints(a.type);
-        barco.rod.pescado = false;
-        println("Puntos: ", barco.puntos);
-        break;
+      if(a.isChasing && !a.huyendo){
+        if (a.pos.dist(barco.rod.carnada.pos) < 20) {
+          this.pescando = true; 
+          a.picado = true;
+          a.isChasing = false;
+        }
       }
-      if (barraPelea.Win()) {
-        a.pescado = true;
-        this.pescando = false;
-        barraPelea.win = false;
-      } 
-       
-      if(a.pescado){
+      else if(a.picado){
+        a.isChasing = false;
+        if (barraPelea.Win() == 1) {
+          a.pescado = true;
+          a.picado = false;
+          system.pescando = false;
+          barraPelea.win = 2;
+        }else if (barraPelea.Win() == 0){
+          println("Pero si entra aqui");
+          a.picado = false;
+          a.isChasing = false;
+          a.pescado = false;
+          a.huyendo = true;
+          a.huyeTime = millis();
+          barraPelea.win = 2;
+        }
+        a.pos = barco.rod.carnada.pos;
+      }
+      else if(a.pescado){
         a.acc = new PVector(0,0);
         a.pos = barco.rod.carnada.pos;
         a.pos.y = a.pos.y-barco.rod.carnada.mass/2;
-      } else {
-        if (a.pos.dist(barco.rod.carnada.pos) < 20 && a.isChasing) {
-          barco.rod.pescado = true;
-          this.pescando = true; 
-           
-        }else if(barraPelea.Win()){
-          a.pescado = true;
-          this.pescando = false;
-          this.barraPelea.win = false;
-       } else if(a.pos.dist(barco.rod.carnada.pos) < 50 && !barco.rod.pescado && matchTypes(a.type,barco.rod.carnada.type)){
+        if (a.pos.y < height*0.35) {
+          a.picado = false;
+          a.pescado = false;
+          fish.remove(a);
+          barco.addPoints(a.type);
+          barco.rod.pescado = false;
+          println("Puntos: ", barco.puntos);
+          break;
+        }
+      }
+      else if(a.huyendo){
+        a.pos = a.pos.copy();
+        if (currentTime - a.huyeTime >= 3000) {
+          println("Entra aqui nooo");
+          a.huyendo = false;
+        }
+        a.applyForce(field.getVector(a.pos.x, a.pos.y));
+        a.separateAlignCohere(fish);
+        a.isChasing = false;
+      }
+      else{
+        if(a.pos.dist(barco.rod.carnada.pos) < 100 && !barco.rod.pescado && matchTypes(a.type,barco.rod.carnada.type) && !a.huyendo){
           println("Un pez persigue la carnada");
           a.seek(barco.rod.carnada.pos);
           a.isChasing = true;
         } else {
+          a.applyForce(field.getVector(a.pos.x, a.pos.y));
           a.separateAlignCohere(fish);
           a.isChasing = false;
         }
-
-        if (!pescando) {
-          a.applyForce(field.getVector(a.pos.x, a.pos.y));
-          a.update();
-        }
-        a.display();
       }
+      a.update();
+      a.display();
     }
     for (Agent2D a : barco.rod.agentesCuerda) {
       if (a.pos.y > height * 0.3) {
@@ -119,7 +139,7 @@ class FishSystem {
       type = FishType.GLOBO;
       y = random(height * 0.6, height * 0.8);
     }
-    x = width - 100; // Posición X aleatoria
+    x = width; // Posición X aleatoria
     int mass = 50;
     Fish a = new Fish(x, y, mass, type);
     a.randomVel(0.1);

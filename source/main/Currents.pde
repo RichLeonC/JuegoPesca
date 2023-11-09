@@ -33,7 +33,7 @@ class Currents {
           angle = 3.14;
         }
         else if(r < 8){
-          angle = -4.71;
+          angle = map(noise(noiseX, noiseY, noiseT), 0.1, 1, -4.71,-4.71);
         }
         grid[r][c] = PVector.fromAngle(angle);
         grid[r][c].setMag(defaultMag);
@@ -57,7 +57,7 @@ class Currents {
           angle = 3.14;
         }
         else if(r < 7){
-          angle = -4.71;
+          angle = map(noise(noiseX, noiseY, noiseT), 0.1, 1, -PI, -3*PI/2);
         }
         else if(r < 8){
           angle = map(noise(noiseX, noiseY, noiseT), 0.1, 1, -PI, -3*PI/2);

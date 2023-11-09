@@ -5,6 +5,7 @@ Barco barco;
 Sail sail;
 int maxPeces = 30;
 int cantPecesActual = 0;
+int currentTime;
 
 final int peso1 = 10;
 final int peso2 = 15;
@@ -67,6 +68,8 @@ PVector g2;
 float attractForce = 1;
 PVector mouse;
 float[] probabilidades;
+
+BarraPelea barraPelea;
 
 //oceano
 float t = 0;
@@ -146,7 +149,7 @@ void draw() {
     }
     barra.setColorForeground(colorActual);
   }
-  int currentTime = millis();
+  currentTime = millis();
   if (currentTime - lastTime >= interval && cantPecesActual <= maxPeces) {
     system.addFish();
     cantPecesActual++;
@@ -156,7 +159,7 @@ void draw() {
 
   system.update();
   if(system.pescando == true){   
-    system.barraPelea.displayBarra();
+    barraPelea.displayBarra();
   }
 }
 
@@ -512,9 +515,9 @@ void pezAtun(float val) {
 }
 
 void pescar(){
-  if(system.pescando == true){
+  if(system.pescando){
     print("entra");
-    system.barraPelea.evaluarPesca();
+    barraPelea.evaluarPesca();
   }
 }
 

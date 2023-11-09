@@ -20,6 +20,10 @@ class Fish extends Agent2D {
   float cohesionRatio;
   boolean pescado = false;
   boolean isChasing = false;
+  boolean picado = false;
+  boolean huyendo = false;
+  int huyeTime;
+  
   FishType type;
   PImage pezSprite;
   
@@ -32,7 +36,7 @@ class Fish extends Agent2D {
     damp = 0.6;
     borderBehaviour = BorderBehaviour.WRAP;
     maxSpeed = 1;
-    maxSteeringForce = 1;
+    maxSteeringForce = 10;
     arrivalRadius = 300;
     lookAhead = 40;
     wanderRadius = 30;
@@ -40,8 +44,8 @@ class Fish extends Agent2D {
     wanderNoise = random(100);
     wanderNoiseInc = 0.01;
     pathAhead = 30;
-    separationRadio = 20;
-    separationRatio = 3; 
+    separationRadio = 120;
+    separationRatio = 1; 
     alignmentRadio = 80;
     alignmentRatio = 1;
     cohesionRadio = 120;
@@ -106,29 +110,18 @@ class Fish extends Agent2D {
     popMatrix();
   }
   
-  @Override
-  void borders() {
-      if (pos.x > width + r) pos.x = -r;
-      if (pos.x < -r) pos.x = width + r;
-      if (pos.y > height + r){
-        setFishPos();
-        pos.x = width;
-      }
-      if (pos.y < width*0.2){
-        applyForce(new PVector(-1,1));
-      }
-  }
-  
   void setFishPos(){
-    if (type == FishType.ANGEL) {
-          pos.y = random(height* 0.4, height * 0.8);
+    /*if (type == FishType.ANGEL) {
+          pos.y = random(height* 0.3, height * 0.8);
     } else if (type == FishType.PAYASO) {
         pos.y = random(height * 0.4, height * 0.5);
     } else if (type == FishType.ATUN) {
         pos.y = random(height *0.7, height * 0.8);
     } else if (type == FishType.GLOBO){
         pos.y = random(height * 0.6, height * 0.8);
-    }
+    }*/
+    println("Sis");
+    pos.y = random(height*0.3, height*0.5);
   
   }
   
@@ -261,6 +254,18 @@ class Fish extends Agent2D {
       }
     }
     throw new Exception("Couldn't find a valid ahead point to follow.");
+  }
+  
+  void huir(PVector ppos){
+    PVector separation = new PVector(0, 0);
+    PVector dif = PVector.sub(this.pos, ppos);
+    dif.normalize();
+    dif.div(pos.dist(ppos));
+    separation.add(dif);
+    separation.div(1);
+    separation.setMag(separationRatio);
+    separation.limit(maxSteeringForce);
+    applyForce(separation);
   }
   
   void separateAlignCohere(ArrayList<Fish> agents){
