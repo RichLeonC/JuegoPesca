@@ -43,6 +43,7 @@ class FishSystem {
         a.pos = barco.rod.carnada.pos;
       }
       else if(a.pescado){
+        a.isChasing = false;
         a.acc = new PVector(0,0);
         a.pos = barco.rod.carnada.pos;
         a.pos.y = a.pos.y-barco.rod.carnada.mass/2;
@@ -76,13 +77,7 @@ class FishSystem {
           a.separateAlignCohere(fish);
           a.isChasing = false;
         }
-      }
-      if(a.pos.y<=height*0.3){
-        println("cruce el mar");
-        println("Chasing: "+a.isChasing);
-        println("picado: "+a.picado);
-        println("pescado"+a.pescado);
-      }
+      }      
       
       a.update();
       a.display();
