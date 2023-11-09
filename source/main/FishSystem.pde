@@ -77,6 +77,13 @@ class FishSystem {
           a.isChasing = false;
         }
       }
+      if(a.pos.y<=height*0.3){
+        println("cruce el mar");
+        println("Chasing: "+a.isChasing);
+        println("picado: "+a.picado);
+        println("pescado"+a.pescado);
+      }
+      
       a.update();
       a.display();
     }

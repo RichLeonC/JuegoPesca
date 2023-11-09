@@ -88,9 +88,9 @@ void setup() {
   probabilidades = distributeProbabilities();
   //Menu
   cp5 = new ControlP5(this);
-  //minim = new Minim(this);
-  //player = minim.loadFile("fishingSong.mp3");
-  //player.play();
+  minim = new Minim(this);
+  player = minim.loadFile("fishingSong.mp3");
+  player.play();
 
 
   createMenu(width/10, width/18);
@@ -428,7 +428,7 @@ void createMenu(int x, int y) {
      
      cp5.addTextlabel("puntosLabel")
      .setText("Puntos: "+barco.puntos)
-     .setPosition(width*1725/1920,height*35/1080)
+     .setPosition(width*1475/1920,height*35/1080)
      .setColorValue(0)
      .setFont(fontPuntos);
  
