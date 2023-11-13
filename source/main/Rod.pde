@@ -127,7 +127,7 @@ class Rod extends Spring{
     for (Agent2D a : agentesCuerda) {
       a.applyGravity(gravity);
       a.applyDrag(0.005);
-      if(a.pos.y > height*0.3){
+      if(a.pos.y > height*0.31){
         if(a.mass > 1){
           a.applyDrag(0.3);
           a.applyForce(new PVector(0,fuerzaCarnada));
@@ -135,7 +135,6 @@ class Rod extends Spring{
         else if( i < largoCuerda - largoMar - pesoExtra){
           //a.fix();
           a.applyForce(new PVector(0,fuerzaCuerda));
-          a.applyDrag(0.1);
         }
       }
       i++;

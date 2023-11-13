@@ -45,6 +45,35 @@ class Bait extends Agent2D {
   }
   
   @Override  
+  void update() {
+    if (!fixed) {
+      vel.add(acc);
+      pos.add(vel);
+      acc.mult(0);
+      borders();
+    }
+  }
+  
+  @Override
+  void borders() {
+    if (pos.y >= height - r) {
+      vel.y *= -damp;
+      pos.y = constrain(pos.y, r, height - r);
+    }
+    if (pos.y < height*0.31) {
+        barco.rod.pescado = false;
+        for(Fish f : system.fish){
+          f.pescado = false;
+          f.huyendo = false;
+          f.picado = false;
+          f.isChasing = false;
+        }
+        system.pescando = false;
+    }
+  }
+  
+  
+  @Override  
   void display() {
     pushMatrix();
     translate(pos.x, pos.y);

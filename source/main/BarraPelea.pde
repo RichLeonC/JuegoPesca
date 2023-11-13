@@ -3,38 +3,40 @@ class BarraPelea {
 
 int duracion = 5; 
 int dato = 120;
-int rangoInicio = 10; 
-int rangoFin = 20; 
+int rangoInicio; 
+int rangoFin; 
 int diametroBolita = 20; 
-float bolitaX; 
+float bolitaX;
 int win = 2; //Cero perdio, 1 gano, 2 neutro (jugando o sin empezar)
 
 public BarraPelea(){
-  
-  bolitaX = map(rangoInicio, 500, dato, 0, width/2) + diametroBolita / 2;
+  rangoInicio = (int) random(100, width - 200);
+  rangoFin = rangoInicio + (int) random(100, min(200, width - rangoInicio));
+  bolitaX = 0 + diametroBolita;
 };
 
 
 void setRango(){
-   this.rangoInicio =  (int) random(10, 80 + 1);
-   this.rangoFin =  (int) random(20, 90 + 1);
+  rangoInicio = (int) random(100, width - 200);
+  rangoFin = rangoInicio + (int) random(100, min(200, width - rangoInicio));
 }
 
 void displayBarra(){
 
     // Dibujar la barra de progreso
     fill(0, 200, 255);
-    rect(0, height / 2 + 500, width, 40);
+    float inicioX = 0;
+    float finX = width;
+    int altura = 25;
+    rect(inicioX, height*0.97 - altura / 2, finX - inicioX, altura);
     
     // Dibujar el rango resaltado
     fill(255, 0, 255); // Color semitransparente
-    float inicioX = map(rangoInicio, 0, dato, 0, width);
-    float finX = map(rangoFin, 0, dato, 0, width);
-    rect(inicioX, height / 2 + 500, finX - inicioX, 40);
+    rect(rangoInicio, height*0.97 - altura / 2, rangoFin - rangoInicio, altura);
     
     // Dibujar la bolita
     fill(57, 255, 20);
-    ellipse(bolitaX, height / 2 + 500, diametroBolita, diametroBolita);
+    ellipse(bolitaX, height*0.97, diametroBolita, diametroBolita);
     
     // Verificar si la bolita está dentro del rango resaltado
     if (bolitaX >= inicioX && bolitaX <= finX) {
@@ -48,7 +50,7 @@ void displayBarra(){
  
  void evaluarPesca() {
     // Verificar si la bolita está dentro del rango resaltado al hacer clic
-    if (bolitaX >= map(rangoInicio, 0, dato, 0, width) && bolitaX <= map(rangoFin, 0, dato, 0, width)) {
+    if (bolitaX >= rangoInicio && bolitaX <= rangoFin) {
       //println("¡Clic correcto!");
       system.pescando = false;
       this.win = 1;
@@ -61,13 +63,16 @@ void displayBarra(){
     setRango();
   }
   
-int Win(){
-  return win;
-}
+  int Win(){
+    return win;
+  }
   
   void controlEvent(ControlEvent event) {
     // Actualizar la posición de la bolita en cada frame
-    bolitaX = map(millis() % (duracion * 1000), 0, duracion * 1000, 0, width) + diametroBolita / 2;
+    bolitaX+=15;
+    if(bolitaX >= width + diametroBolita){
+      bolitaX = 0 + diametroBolita;
+    }
   }
 
   

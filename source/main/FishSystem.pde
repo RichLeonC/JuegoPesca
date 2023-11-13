@@ -17,8 +17,9 @@ class FishSystem {
     field.update();
     //field.display();
     for (Fish a : fish) {
-      if(a.isChasing && !a.huyendo){
-        if (a.pos.dist(barco.rod.carnada.pos) < 20) {
+      if(a.isChasing && !a.huyendo && !barco.rod.pescado){
+        if (a.pos.dist(barco.rod.carnada.pos) < 50) {
+          barco.rod.pescado = true;
           this.pescando = true; 
           a.picado = true;
           a.isChasing = false;
@@ -40,19 +41,19 @@ class FishSystem {
           a.huyeTime = millis();
           barraPelea.win = 2;
         }
-        a.pos = barco.rod.carnada.pos;
+        a.pos = barco.rod.carnada.pos.copy();
       }
       else if(a.pescado){
-        a.acc = new PVector(0,0);
-        a.pos = barco.rod.carnada.pos;
-        a.pos.y = a.pos.y-barco.rod.carnada.mass/2;
+        //a.acc = new PVector(0,0);
+        a.pos = barco.rod.carnada.pos.copy();
+        //a.pos.y = a.pos.y-barco.rod.carnada.mass/2;
+        barco.rod.carnada.applyForce(new PVector(0,-2));
         if (a.pos.y < height*0.35) {
           a.picado = false;
           a.pescado = false;
           fish.remove(a);
           barco.addPoints(a.type);
           barco.rod.pescado = false;
-          println("Puntos: ", barco.puntos);
           break;
         }
       }
@@ -67,7 +68,7 @@ class FishSystem {
         a.isChasing = false;
       }
       else{
-        if(a.pos.dist(barco.rod.carnada.pos) < 100 && !barco.rod.pescado && matchTypes(a.type,barco.rod.carnada.type) && !a.huyendo){
+        if(a.pos.dist(barco.rod.carnada.pos) < 150 && !barco.rod.pescado && matchTypes(a.type,barco.rod.carnada.type) && !a.huyendo){
          // println("Un pez persigue la carnada");
           a.seek(barco.rod.carnada.pos);
           a.isChasing = true;
@@ -143,9 +144,10 @@ class FishSystem {
       type = FishType.GLOBO;
       y = random(height * 0.6, height * 0.8);
     }
+    float multiploDe50 = y + (50 - y % 50);
     x = width; // Posición X aleatoria
     int mass = 50;
-    Fish a = new Fish(x, y, mass, type);
+    Fish a = new Fish(x, multiploDe50, mass, type);
     a.randomVel(0.1);
     fish.add(a);
   }

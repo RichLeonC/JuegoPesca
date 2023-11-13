@@ -7,10 +7,10 @@ int maxPeces = 30;
 int cantPecesActual = 0;
 int currentTime;
 
-final int peso1 = 10;
-final int peso2 = 15;
-final int peso3 = 20;
-final int peso4 = 25;
+final int peso1 = 5;
+final int peso2 = 10;
+final int peso3 = 15;
+final int peso4 = 20;
 
 int lastTime = 0; // Variable para realizar un seguimiento del tiempo del último evento
 int interval = 10000;
@@ -118,8 +118,7 @@ void setup() {
   cp5 = new ControlP5(this);
   minim = new Minim(this);
   player = minim.loadFile("fishingSong.mp3");
-  player.play();
-  player.setGain(-25f);
+  
 
   createMenu(width/10, width/18);
 
@@ -129,6 +128,8 @@ void setup() {
   mouse = new PVector(0, 0);
   // Generar peces al inicio
   generateMultipleFish(); // Genera 5 peces al inicio
+  //player.play();
+  //player.setGain(-25f);
 
 
 }
@@ -177,6 +178,7 @@ void draw() {
   if (system.pescando == true) {
     barraPelea.displayBarra();
   }
+  //barraPelea.displayBarra();
 }
 
 float[] distributeProbabilities() {
@@ -210,6 +212,7 @@ void keyPressed() {
   forceBoat = 5-(FuerzaViento*3.5);
 
   if (key == 'a') {
+    //println("Entra");
     userWindApplied = true;
 
     barco.applyForce(new PVector(-forceBoat, 0));
@@ -260,6 +263,17 @@ void mouseReleased() {
 void keyReleased() {
   if (key == 'a' || key == 'd') {
     userWindApplied = false;
+  }
+  if (key == 'r') {
+    for(Fish f : system.fish){
+      f.pescado = false;
+      f.huyendo = false;
+      f.picado = false;
+      f.isChasing = false;
+    }
+    int puntos = barco.puntos;
+    barco = new Barco(width*0.5, height*0.35, 10);
+    barco.puntos = puntos;
   }
 }
 

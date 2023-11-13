@@ -81,18 +81,13 @@ class Fish extends Agent2D {
   
   @Override
   void update() {
-    vel.add(acc);
-    vel.limit(maxSpeed);
-    pos.add(vel);
-    acc.mult(0);
-    borders();
-  }
-  
-  void updatePescado() {
-    vel.add(acc);
-    vel.limit(maxSpeed);
-    acc.mult(0);
-    borders();
+      vel.add(acc);
+      vel.limit(maxSpeed);
+      pos.add(vel);
+      acc.mult(0);
+    if(!picado && !pescado){
+      borders();
+    }
   }
   
   @Override  
@@ -294,7 +289,7 @@ class Fish extends Agent2D {
                 separateCount++;
             }
 
-            if (distance < cohesionRadio && a.type == this.type) {
+            if (distance < cohesionRadio && a.type == this.type && !a.picado && !a.pescado) {
                 cohesion.add(a.pos);
                 cohesionCount++;
             }
